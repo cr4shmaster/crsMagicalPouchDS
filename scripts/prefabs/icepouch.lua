@@ -1,17 +1,17 @@
 require "prefabutil"
 
 local assets = {
-	Asset("ATLAS", "images/inventoryimages/pouchhuge.xml"),
-	Asset("IMAGE", "images/inventoryimages/pouchhuge.tex"),
-	Asset("ATLAS", "images/inventoryimages/pouchbig.xml"),
-	Asset("IMAGE", "images/inventoryimages/pouchbig.tex"),
-	Asset("ATLAS", "images/inventoryimages/pouchmedium.xml"),
-	Asset("IMAGE", "images/inventoryimages/pouchmedium.tex"),
-	Asset("ATLAS", "images/inventoryimages/pouchsmall.xml"),
-	Asset("IMAGE", "images/inventoryimages/pouchsmall.tex"),
-	Asset("ATLAS", "images/inventoryimages/pouchzilla.xml"),
-	Asset("IMAGE", "images/inventoryimages/pouchzilla.tex"),
-	Asset("ANIM", "anim/icepouch.zip"),
+ Asset("ATLAS", "images/inventoryimages/pouchhuge.xml"),
+ Asset("IMAGE", "images/inventoryimages/pouchhuge.tex"),
+ Asset("ATLAS", "images/inventoryimages/pouchbig.xml"),
+ Asset("IMAGE", "images/inventoryimages/pouchbig.tex"),
+ Asset("ATLAS", "images/inventoryimages/pouchmedium.xml"),
+ Asset("IMAGE", "images/inventoryimages/pouchmedium.tex"),
+ Asset("ATLAS", "images/inventoryimages/pouchsmall.xml"),
+ Asset("IMAGE", "images/inventoryimages/pouchsmall.tex"),
+ Asset("ATLAS", "images/inventoryimages/pouchzilla.xml"),
+ Asset("IMAGE", "images/inventoryimages/pouchzilla.tex"),
+ Asset("ANIM", "anim/icepouch.zip"),
  Asset("SOUND", "sound/wilson.fsb"),
 }
 
@@ -20,52 +20,52 @@ local function crsOnDropped(inst, owner)
 end
 
 local function crsOnOpen(inst)
-	inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_open", "open")
+ inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_open", "open")
 end
 
 local function crsOnClose(inst)
-	inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_close", "open")
+ inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_close", "open")
  return (inst)
 end
 
 local function fn(Sim)
-	local inst = CreateEntity()
+ local inst = CreateEntity()
  
-	inst.entity:AddTransform()
+ inst.entity:AddTransform()
  
  MakeInventoryPhysics(inst)
  
-	inst.entity:AddAnimState()
+ inst.entity:AddAnimState()
  inst.AnimState:SetBank("icepouch")
  inst.AnimState:SetBuild("icepouch")
  inst.AnimState:PlayAnimation("idle")
  
-	inst.entity:AddSoundEmitter()
-	
-	inst:AddTag("crsMagicalPouch")
-	inst:AddTag("crsIcyMagicalPouch")
+ inst.entity:AddSoundEmitter()
+ 
+ inst:AddTag("crsMagicalPouch")
+ inst:AddTag("crsIcyMagicalPouch")
  inst:AddTag("crsCustomPerishMult")
  inst.crsCustomPerishMult = crsIcyMagicalPouchPerishMult
  inst:AddTag("crsCustomTempDuration")
  inst.crsCustomTempDuration = crsIcyMagicalPouchTempDuration
  
-	local minimap = inst.entity:AddMiniMapEntity()
-	minimap:SetIcon("icepouch.tex") 
+ local minimap = inst.entity:AddMiniMapEntity()
+ minimap:SetIcon("icepouch.tex") 
 
  inst:AddComponent("inventoryitem")
  inst.components.inventoryitem.cangoincontainer = true
  inst.components.inventoryitem.atlasname = "images/inventoryimages/icepouch.xml"
-	inst.components.inventoryitem:SetOnDroppedFn(crsOnDropped)
+ inst.components.inventoryitem:SetOnDroppedFn(crsOnDropped)
 
  inst:AddComponent("inspectable")
  
  inst:AddComponent("container")
  inst.components.container.onopenfn = crsOnOpen
  inst.components.container.onclosefn = crsOnClose
-	inst.components.container.widgetanimbank = nil	
+ inst.components.container.widgetanimbank = nil 
  inst.components.container.widgetanimbuild = nil
  inst.components.container.side_align_tip = 160
-	inst.components.container.widgetbgimagetint = {r=.44,g=.74,b=1,a=1} -- add tint
+ inst.components.container.widgetbgimagetint = {r=.44,g=.74,b=1,a=1} -- add tint
  
  if inst then
   -- autocollect items func
@@ -88,7 +88,7 @@ local function fn(Sim)
      inst.components.container:GiveItem(crsItem)
     end
    end
-	 end
+  end
   -- do periodic taks
   if crsIcyMagicalPouchAutoCollectToggle == 1 then
    inst:DoPeriodicTask(crsIcyMagicalPouchAutoCollectInterval, crsSearchForItem)

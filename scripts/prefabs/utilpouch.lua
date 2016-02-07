@@ -1,17 +1,17 @@
 require "prefabutil"
 
 local assets = {
-	Asset("ATLAS", "images/inventoryimages/pouchhuge.xml"),
-	Asset("IMAGE", "images/inventoryimages/pouchhuge.tex"),
-	Asset("ATLAS", "images/inventoryimages/pouchbig.xml"),
-	Asset("IMAGE", "images/inventoryimages/pouchbig.tex"),
-	Asset("ATLAS", "images/inventoryimages/pouchmedium.xml"),
-	Asset("IMAGE", "images/inventoryimages/pouchmedium.tex"),
-	Asset("ATLAS", "images/inventoryimages/pouchsmall.xml"),
-	Asset("IMAGE", "images/inventoryimages/pouchsmall.tex"),
-	Asset("ATLAS", "images/inventoryimages/pouchzilla.xml"),
-	Asset("IMAGE", "images/inventoryimages/pouchzilla.tex"),
-	Asset("ANIM", "anim/utilpouch.zip"),
+ Asset("ATLAS", "images/inventoryimages/pouchhuge.xml"),
+ Asset("IMAGE", "images/inventoryimages/pouchhuge.tex"),
+ Asset("ATLAS", "images/inventoryimages/pouchbig.xml"),
+ Asset("IMAGE", "images/inventoryimages/pouchbig.tex"),
+ Asset("ATLAS", "images/inventoryimages/pouchmedium.xml"),
+ Asset("IMAGE", "images/inventoryimages/pouchmedium.tex"),
+ Asset("ATLAS", "images/inventoryimages/pouchsmall.xml"),
+ Asset("IMAGE", "images/inventoryimages/pouchsmall.tex"),
+ Asset("ATLAS", "images/inventoryimages/pouchzilla.xml"),
+ Asset("IMAGE", "images/inventoryimages/pouchzilla.tex"),
+ Asset("ANIM", "anim/utilpouch.zip"),
  Asset("SOUND", "sound/deerclops.fsb"),
 }
 
@@ -20,45 +20,45 @@ local function crsOnDropped(inst, owner)
 end
 
 local function crsOnOpen(inst)
-	inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_open", "open")
+ inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_open", "open")
 end
 
 local function crsOnClose(inst)
-	inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_close", "open")
+ inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_close", "open")
  return (inst)
 end
 
 local function fn(Sim)
-	local inst = CreateEntity()
+ local inst = CreateEntity()
  
-	inst.entity:AddTransform()
+ inst.entity:AddTransform()
  
  MakeInventoryPhysics(inst)
  
-	inst.entity:AddAnimState()
+ inst.entity:AddAnimState()
  inst.AnimState:SetBank("utilpouch")
  inst.AnimState:SetBuild("utilpouch")
  inst.AnimState:PlayAnimation("idle")
  
-	inst.entity:AddSoundEmitter()
-	
-	inst:AddTag("crsMagicalPouch")
-	inst:AddTag("crsUtilityMagicalPouch")
+ inst.entity:AddSoundEmitter()
+ 
+ inst:AddTag("crsMagicalPouch")
+ inst:AddTag("crsUtilityMagicalPouch")
 
-	local minimap = inst.entity:AddMiniMapEntity()
-	minimap:SetIcon("utilpouch.tex")
+ local minimap = inst.entity:AddMiniMapEntity()
+ minimap:SetIcon("utilpouch.tex")
 
  inst:AddComponent("inventoryitem")
  inst.components.inventoryitem.cangoincontainer = true
  inst.components.inventoryitem.atlasname = "images/inventoryimages/utilpouch.xml"
-	inst.components.inventoryitem:SetOnDroppedFn(crsOnDropped)
+ inst.components.inventoryitem:SetOnDroppedFn(crsOnDropped)
 
  inst:AddComponent("inspectable")
  
  inst:AddComponent("container")
  inst.components.container.onopenfn = crsOnOpen
  inst.components.container.onclosefn = crsOnClose
-	inst.components.container.widgetanimbank = nil	
+ inst.components.container.widgetanimbank = nil 
  inst.components.container.widgetanimbuild = nil
  inst.components.container.side_align_tip = 160
  inst.components.container.widgetbgimagetint = {r=.80,g=.52,b=.24,a=1}
@@ -91,7 +91,7 @@ local function fn(Sim)
   if crsUtilityMagicalPouchAutoCollectToggle == 1 then
    inst:DoPeriodicTask(crsUtilityMagicalPouchAutoCollectInterval, SearchForItem)
   end
-	end
+ end
  
  return inst
 end
