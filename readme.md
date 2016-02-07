@@ -1,3 +1,6 @@
 # Magical Pouch for Don't Starve
 
-Updated for Shipwrecked.
+Shipwrecked compatible.
+
+TO DO:
+- implement Shipwrecked items.
