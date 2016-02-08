@@ -3,4 +3,4 @@
 Shipwrecked compatible.
 
 TO DO:
-- implement Shipwrecked items.
+- add missing SW items.

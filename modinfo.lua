@@ -1,4 +1,4 @@
-name = "Magical Pouch TEST"
+name = "Magical Pouch v3.1"
 description = "Shrinks items to fit in your pocket!"
 author = "cr4shmaster"
 version = "3.1.0"
@@ -9,11 +9,6 @@ reign_of_giants_compatible = true
 shipwrecked_compatible = true
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
-
---[[ 
-Notes:
- - need to implement shipwrecked items
---]]
 
 local crsSize = {
  {description = "4 slots", data = 1},

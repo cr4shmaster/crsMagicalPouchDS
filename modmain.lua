@@ -31,6 +31,8 @@ Ingredient = GLOBAL.Ingredient
 TECH = GLOBAL.TECH
 Vector3 = GLOBAL.Vector3
 
+local C = GLOBAL.IsDLCEnabled(GLOBAL.CAPY_DLC)
+
 -- add strings
 STRINGS.NAMES.MAGICPOUCH = "Magical Pouch"
 STRINGS.RECIPE_DESC.MAGICPOUCH = "Shrinks items to fit in your pocket!"
@@ -247,6 +249,9 @@ AddPrefabPostInit("gunpowder", crsNoAutoCollect)
 AddPrefabPostInit("blowdart_pipe", crsNoAutoCollect)
 AddPrefabPostInit("blowdart_fire", crsNoAutoCollect)
 AddPrefabPostInit("blowdart_sleep", crsNoAutoCollect)
+if C then
+ AddPrefabPostInit("doydoy", crsNoAutoCollect)
+end
 -- UMP
 local function crsGoesInUtilityMagicalPouch(inst)
  inst:AddTag("crsGoesInUtilityMagicalPouch") -- items with this tag can go in UMP
