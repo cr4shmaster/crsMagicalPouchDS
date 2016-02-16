@@ -2,5 +2,3 @@
 
 Shipwrecked compatible.
 
-TO DO:
-- add missing SW items.
