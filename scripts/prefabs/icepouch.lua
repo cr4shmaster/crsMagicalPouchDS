@@ -44,10 +44,11 @@ local function fn(Sim)
  
  inst:AddTag("crsMagicalPouch")
  inst:AddTag("crsIcyMagicalPouch")
+ 
  inst:AddTag("crsCustomPerishMult")
- inst.crsCustomPerishMult = crsIcyMagicalPouchPerishMult
+ inst.crsCustomPerishMult = GetModConfigData("crsIcyMagicalPouchPerishMult", "workshop-399011777")
  inst:AddTag("crsCustomTempDuration")
- inst.crsCustomTempDuration = crsIcyMagicalPouchTempDuration
+ inst.crsCustomTempDuration = GetModConfigData("crsIcyMagicalPouchTempDuration", "workshop-399011777")
  
  local minimap = inst.entity:AddMiniMapEntity()
  minimap:SetIcon("icepouch.tex") 
@@ -70,7 +71,7 @@ local function fn(Sim)
  if inst then
   -- autocollect items func
   local function crsSearchForItem(inst)  
-   local crsItem = FindEntity(inst, crsIcyMagicalPouchAutoCollectRadius, function(crsItem) 
+   local crsItem = FindEntity(inst, GetModConfigData("crsIcyMagicalPouchAutoCollectRadius", "workshop-399011777"), function(crsItem) 
     return crsItem.components.inventoryitem and crsItem.components.inventoryitem.canbepickedup and crsItem.components.inventoryitem.cangoincontainer
    end)
    if crsItem and not crsItem:HasTag("crsNoAutoCollect") then -- if valid
@@ -89,9 +90,9 @@ local function fn(Sim)
     end
    end
   end
-  -- do periodic taks
-  if crsIcyMagicalPouchAutoCollectToggle == 1 then
-   inst:DoPeriodicTask(crsIcyMagicalPouchAutoCollectInterval, crsSearchForItem)
+  -- do periodic task
+  if GetModConfigData("crsIcyMagicalPouchAutoCollectToggle", "workshop-399011777") == 1 then
+   inst:DoPeriodicTask(GetModConfigData("crsIcyMagicalPouchAutoCollectInterval", "workshop-399011777"), crsSearchForItem)
   end
  end
  

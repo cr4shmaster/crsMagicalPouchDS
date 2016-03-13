@@ -66,7 +66,7 @@ local function fn(Sim)
  if inst then
   -- autocollect items func
   local function SearchForItem(inst)
-   local crsItem = FindEntity(inst, crsUtilityMagicalPouchAutoCollectRadius, function(crsItem) 
+   local crsItem = FindEntity(inst, GetModConfigData("crsUtilityMagicalPouchAutoCollectRadius", "workshop-399011777"), function(crsItem) 
     return crsItem.components.inventoryitem and 
     crsItem.components.inventoryitem.canbepickedup and
     crsItem.components.inventoryitem.cangoincontainer
@@ -88,8 +88,8 @@ local function fn(Sim)
    end
   end
   -- do periodic task
-  if crsUtilityMagicalPouchAutoCollectToggle == 1 then
-   inst:DoPeriodicTask(crsUtilityMagicalPouchAutoCollectInterval, SearchForItem)
+  if GetModConfigData("crsUtilityMagicalPouchAutoCollectToggle", "workshop-399011777") == 1 then
+   inst:DoPeriodicTask(GetModConfigData("crsUtilityMagicalPouchAutoCollectInterval", "workshop-399011777"), SearchForItem)
   end
  end
  

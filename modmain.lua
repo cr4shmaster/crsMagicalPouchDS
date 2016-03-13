@@ -44,19 +44,6 @@ STRINGS.NAMES.UTILPOUCH = "Utility Magical Pouch"
 STRINGS.RECIPE_DESC.UTILPOUCH = "A Magical Pouch that can store tools, instruments and weapons!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.UTILPOUCH = "A Magical Pouch that can store tools, instruments and weapons!"
 
--- get mod settings
-GLOBAL.crsMagicalPouchAutoCollectToggle = GetModConfigData("crsMagicalPouchAutoCollectToggle")
-GLOBAL.crsMagicalPouchAutoCollectRadius = GetModConfigData("crsMagicalPouchAutoCollectRadius")
-GLOBAL.crsMagicalPouchAutoCollectInterval = GetModConfigData("crsMagicalPouchAutoCollectInterval")
-GLOBAL.crsIcyMagicalPouchPerishMult = GetModConfigData("crsIcyMagicalPouchPerishMult")
-GLOBAL.crsIcyMagicalPouchTempDuration = GetModConfigData("crsIcyMagicalPouchTempDuration")
-GLOBAL.crsIcyMagicalPouchAutoCollectToggle = GetModConfigData("crsIcyMagicalPouchAutoCollectToggle")
-GLOBAL.crsIcyMagicalPouchAutoCollectRadius = GetModConfigData("crsIcyMagicalPouchAutoCollectRadius")
-GLOBAL.crsIcyMagicalPouchAutoCollectInterval = GetModConfigData("crsIcyMagicalPouchAutoCollectInterval")
-GLOBAL.crsUtilityMagicalPouchAutoCollectToggle = GetModConfigData("crsUtilityMagicalPouchAutoCollectToggle")
-GLOBAL.crsUtilityMagicalPouchAutoCollectRadius = GetModConfigData("crsUtilityMagicalPouchAutoCollectRadius")
-GLOBAL.crsUtilityMagicalPouchAutoCollectInterval = GetModConfigData("crsUtilityMagicalPouchAutoCollectInterval")
-
 -- add recipes
 local crsMagicalPouchRecipeDarkMotes = Ingredient("darkmote", GetModConfigData("crsMagicalPouchRecipeDarkMotes"))
 crsMagicalPouchRecipeDarkMotes.atlas = "images/inventoryimages/darkmote.xml"
