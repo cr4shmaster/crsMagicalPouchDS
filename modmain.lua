@@ -32,6 +32,7 @@ TECH = GLOBAL.TECH
 Vector3 = GLOBAL.Vector3
 
 local C = GLOBAL.IsDLCEnabled(GLOBAL.CAPY_DLC)
+local D = GetModConfigData("crsMagicalPouchRecipeTab")
 
 -- add strings
 STRINGS.NAMES.MAGICPOUCH = "Magical Pouch"
@@ -54,18 +55,26 @@ crsUtilityMagicalPouchRecipeDarkMotes.atlas = "images/inventoryimages/darkmote.x
 local crsIsIcyMagicalPouchEnabled = GetModConfigData("crsIcyMagicalPouchRecipeToggle") == 1
 local crsIsUtilityMagicalPouchEnabled = GetModConfigData("crsUtilityMagicalPouchRecipeToggle") == 1
 local crsIsDarkMatterCompatibilityEnabled = GetModConfigData("crsDarkMatterCompatibilityToggle") == 1
+local recipeTab = RECIPETABS.ANCIENT
+if D == 2 then
+ recipeTab = RECIPETABS.MAGIC
+elseif D == 3 then
+ recipeTab = RECIPETABS.TOOLS
+elseif D == 4 then
+ recipeTab = RECIPETABS.SURVIVAL
+end
 -- MP
 if crsIsDarkMatterCompatibilityEnabled then
  local magicpouch = Recipe("magicpouch", {
   crsMagicalPouchRecipeDarkMotes,
- }, RECIPETABS.ANCIENT, TECH.MAGIC_TWO)
+ }, recipeTab, TECH.MAGIC_TWO)
  magicpouch.atlas = "images/inventoryimages/magicpouch.xml"
 else 
  local magicpouch = Recipe("magicpouch", {
   Ingredient("rope", GetModConfigData("crsMagicalPouchRecipeRope")),
   Ingredient("silk", GetModConfigData("crsMagicalPouchRecipeWeb")),
   Ingredient("purplegem", GetModConfigData("crsMagicalPouchRecipePurpleGem")),
- }, RECIPETABS.ANCIENT, TECH.MAGIC_TWO)
+ }, recipeTab, TECH.MAGIC_TWO)
  magicpouch.atlas = "images/inventoryimages/magicpouch.xml"
 end
 -- IMP
@@ -73,14 +82,14 @@ if crsIsIcyMagicalPouchEnabled then
  if crsIsDarkMatterCompatibilityEnabled then
   local icepouch = Recipe("icepouch", {
    crsIcyMagicalPouchRecipeDarkMotes,
-  }, RECIPETABS.ANCIENT, TECH.MAGIC_TWO)
+  }, recipeTab, TECH.MAGIC_TWO)
   icepouch.atlas = "images/inventoryimages/icepouch.xml"
  else 
   local icepouch = Recipe("icepouch", {
    Ingredient("rope", GetModConfigData("crsIcyMagicalPouchRecipeRope")),
    Ingredient("silk", GetModConfigData("crsIcyMagicalPouchRecipeWeb")),
    Ingredient("bluegem", GetModConfigData("crsIcyMagicalPouchRecipeBlueGem")),
-  }, RECIPETABS.ANCIENT, TECH.MAGIC_TWO)
+  }, recipeTab, TECH.MAGIC_TWO)
   icepouch.atlas = "images/inventoryimages/icepouch.xml"
  end
 end
@@ -89,14 +98,14 @@ if crsIsUtilityMagicalPouchEnabled then
  if crsIsDarkMatterCompatibilityEnabled then
   local utilpouch = Recipe("utilpouch", {
    crsUtilityMagicalPouchRecipeDarkMotes,
-  }, RECIPETABS.ANCIENT, TECH.MAGIC_TWO)
+  }, recipeTab, TECH.MAGIC_TWO)
   utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
  else 
   local utilpouch = Recipe("utilpouch", {
    Ingredient("rope", GetModConfigData("crsUtilityMagicalPouchRecipeRope")),
    Ingredient("silk", GetModConfigData("crsUtilityMagicalPouchRecipeWeb")),
    Ingredient("livinglog", GetModConfigData("crsUtilityMagicalPouchRecipeLivingLog")),
-  }, RECIPETABS.ANCIENT, TECH.MAGIC_TWO)
+  }, recipeTab, TECH.MAGIC_TWO)
   utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
  end
 end

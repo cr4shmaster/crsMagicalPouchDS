@@ -1,7 +1,7 @@
-name = "Magical Pouch v3.1"
+name = "Magical Pouch v3.1.2"
 description = "Shrinks items to fit in your pocket!"
 author = "cr4shmaster"
-version = "3.1.1"
+version = "3.1.2"
 forumthread = ""
 api_version = 6
 dont_starve_compatible = true
@@ -138,6 +138,17 @@ local crsPosition = {
 }
 
 configuration_options = {
+ {
+  name = "crsMagicalPouchRecipeTab",
+  label = "Recipe Tab",
+  options = {
+   {description = "Ancient", data = 1},
+   {description = "Magic", data = 2},
+   {description = "Tools", data = 3},
+   {description = "Survival", data = 4},
+  },
+  default = 1,
+ },
  {
   name = "crsMagicalPouchSize",
   label = "MP Size",
