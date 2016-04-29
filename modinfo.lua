@@ -1,7 +1,7 @@
 name = "Magical Pouch v3.1.2"
 description = "Shrinks items to fit in your pocket!"
 author = "cr4shmaster"
-version = "3.1.2"
+version = "3.1.3"
 forumthread = ""
 api_version = 6
 dont_starve_compatible = true
@@ -148,6 +148,21 @@ configuration_options = {
    {description = "Survival", data = 4},
   },
   default = 1,
+ },
+ {
+  name = "crsMagicalPouchRecipeTech",
+  label = "Recipe Tech",
+  options = {
+   {description = "None", data = 0},
+   {description = "Science Machine", data = 1},
+   {description = "Alchemy Engine", data = 2},
+   {description = "Prestihatitator", data = 3},
+   {description = "Shadow Manipulator", data = 4},
+   {description = "Broken APS", data = 5},
+   {description = "Repaired APS", data = 6},
+   {description = "Obsidian Workbench", data = 7},
+  },
+  default = 4,
  },
  {
   name = "crsMagicalPouchSize",
