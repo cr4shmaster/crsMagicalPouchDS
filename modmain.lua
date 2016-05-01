@@ -291,6 +291,7 @@ local function crsIcyMagicalPouchItemTest(inst, item, slot)
  item.prefab == "mandrake" or 
  item.prefab == "tallbirdegg" or 
  item.prefab == "heatrock" or 
+ item.prefab == "spoiled_food" or 
  item:HasTag("frozen") or
  item:HasTag("icebox_valid")
 end
