@@ -31,9 +31,9 @@ Ingredient = GLOBAL.Ingredient
 TECH = GLOBAL.TECH
 Vector3 = GLOBAL.Vector3
 
-local C = GLOBAL.IsDLCEnabled(GLOBAL.CAPY_DLC)
-local D = GetModConfigData("crsMagicalPouchRecipeTab")
-local E = GetModConfigData("crsMagicalPouchRecipeTech")
+local crsShipwreckedEnabled = GLOBAL.IsDLCEnabled(GLOBAL.CAPY_DLC)
+local crsRecipeTab = GetModConfigData("crsMagicalPouchRecipeTab")
+local crsRecipeTech = GetModConfigData("crsMagicalPouchRecipeTech")
 
 -- add strings
 STRINGS.NAMES.MAGICPOUCH = "Magical Pouch"
@@ -57,28 +57,28 @@ local crsIsIcyMagicalPouchEnabled = GetModConfigData("crsIcyMagicalPouchRecipeTo
 local crsIsUtilityMagicalPouchEnabled = GetModConfigData("crsUtilityMagicalPouchRecipeToggle") == 1
 local crsIsDarkMatterCompatibilityEnabled = GetModConfigData("crsDarkMatterCompatibilityToggle") == 1
 local recipeTab = RECIPETABS.ANCIENT
-if D == 2 then
+if crsRecipeTab == 2 then
  recipeTab = RECIPETABS.MAGIC
-elseif D == 3 then
+elseif crsRecipeTab == 3 then
  recipeTab = RECIPETABS.TOOLS
-elseif D == 4 then
+elseif crsRecipeTab == 4 then
  recipeTab = RECIPETABS.SURVIVAL
 end
 local recipeTech = TECH.NONE
-if E == 1 then
- recipeTab = RECIPETABS.SCIENCE_ONE
-elseif E == 2 then
- recipeTab = RECIPETABS.SCIENCE_TWO
-elseif E == 3 then
- recipeTab = RECIPETABS.MAGIC_TWO
-elseif E == 4 then
- recipeTab = RECIPETABS.MAGIC_THREE
-elseif E == 5 then
- recipeTab = RECIPETABS.ANCIENT_TWO
-elseif E == 6 then
- recipeTab = RECIPETABS.ANCIENT_FOUR
-elseif E == 7 then
- recipeTab = RECIPETABS.OBSIDIAN_TWO
+if crsRecipeTech == 1 then
+ recipeTech = TECH.SCIENCE_ONE
+elseif crsRecipeTech == 2 then
+ recipeTech = TECH.SCIENCE_TWO
+elseif crsRecipeTech == 3 then
+ recipeTech = TECH.MAGIC_TWO
+elseif crsRecipeTech == 4 then
+ recipeTech = TECH.MAGIC_THREE
+elseif crsRecipeTech == 5 then
+ recipeTech = TECH.ANCIENT_TWO
+elseif crsRecipeTech == 6 then
+ recipeTech = TECH.ANCIENT_FOUR
+elseif crsRecipeTech == 7 then
+ recipeTech = TECH.OBSIDIAN_TWO
 end
 -- MP
 if crsIsDarkMatterCompatibilityEnabled then
@@ -262,7 +262,7 @@ AddPrefabPostInit("gunpowder", crsNoAutoCollect)
 AddPrefabPostInit("blowdart_pipe", crsNoAutoCollect)
 AddPrefabPostInit("blowdart_fire", crsNoAutoCollect)
 AddPrefabPostInit("blowdart_sleep", crsNoAutoCollect)
-if C then
+if crsShipwreckedEnabled then
  AddPrefabPostInit("doydoy", crsNoAutoCollect)
 end
 -- UMP

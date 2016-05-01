@@ -15,6 +15,13 @@ local assets = {
  Asset("SOUND", "sound/wilson.fsb"),
 }
 
+local crsMagicalPouchDS = nil
+if GetModConfigData("crsMagicalPouchTest", "workshop-399011777") == 1 then
+ crsMagicalPouchDS = "workshop-399011777"
+else
+ crsMagicalPouchDS = "crsMagicalPouchDS"
+end
+
 local function crsOnDropped(inst, owner)
  inst.components.container:Close(owner)
 end
@@ -46,9 +53,9 @@ local function fn(Sim)
  inst:AddTag("crsIcyMagicalPouch")
  
  inst:AddTag("crsCustomPerishMult")
- inst.crsCustomPerishMult = GetModConfigData("crsIcyMagicalPouchPerishMult", "workshop-399011777")
+ inst.crsCustomPerishMult = GetModConfigData("crsIcyMagicalPouchPerishMult", crsMagicalPouchDS)
  inst:AddTag("crsCustomTempDuration")
- inst.crsCustomTempDuration = GetModConfigData("crsIcyMagicalPouchTempDuration", "workshop-399011777")
+ inst.crsCustomTempDuration = GetModConfigData("crsIcyMagicalPouchTempDuration", crsMagicalPouchDS)
  
  local minimap = inst.entity:AddMiniMapEntity()
  minimap:SetIcon("icepouch.tex") 
@@ -70,8 +77,8 @@ local function fn(Sim)
  
  if inst then
   -- autocollect items func
-  local function crsSearchForItem(inst)  
-   local crsItem = FindEntity(inst, GetModConfigData("crsIcyMagicalPouchAutoCollectRadius", "workshop-399011777"), function(crsItem) 
+  local function crsSearchForItem(inst)
+   local crsItem = FindEntity(inst, GetModConfigData("crsIcyMagicalPouchAutoCollectRadius", crsMagicalPouchDS), function(crsItem) 
     return crsItem.components.inventoryitem and crsItem.components.inventoryitem.canbepickedup and crsItem.components.inventoryitem.cangoincontainer
    end)
    if crsItem and not crsItem:HasTag("crsNoAutoCollect") then -- if valid
@@ -91,8 +98,8 @@ local function fn(Sim)
    end
   end
   -- do periodic task
-  if GetModConfigData("crsIcyMagicalPouchAutoCollectToggle", "workshop-399011777") == 1 then
-   inst:DoPeriodicTask(GetModConfigData("crsIcyMagicalPouchAutoCollectInterval", "workshop-399011777"), crsSearchForItem)
+  if GetModConfigData("crsIcyMagicalPouchAutoCollectToggle", crsMagicalPouchDS) == 1 then
+   inst:DoPeriodicTask(GetModConfigData("crsIcyMagicalPouchAutoCollectInterval", crsMagicalPouchDS), crsSearchForItem)
   end
  end
  

@@ -1,7 +1,7 @@
 name = "Magical Pouch v3.1.2"
 description = "Shrinks items to fit in your pocket!"
 author = "cr4shmaster"
-version = "3.1.3"
+version = "3.1.4"
 forumthread = ""
 api_version = 6
 dont_starve_compatible = true
@@ -157,10 +157,10 @@ configuration_options = {
    {description = "Science Machine", data = 1},
    {description = "Alchemy Engine", data = 2},
    {description = "Prestihatitator", data = 3},
-   {description = "Shadow Manipulator", data = 4},
+   {description = "Shadow Manip.", data = 4},
    {description = "Broken APS", data = 5},
    {description = "Repaired APS", data = 6},
-   {description = "Obsidian Workbench", data = 7},
+   {description = "Obs. Workbench", data = 7},
   },
   default = 4,
  },
@@ -355,5 +355,13 @@ configuration_options = {
   label = "UI y Position",
   options = crsPosition,
   default = -100,
+ },
+ {
+  name = "crsMagicalPouchTest",
+  label = "Installed",
+  options = {
+   {description = "Yes", data = 1},
+  },
+  default = 1,
  },
 }

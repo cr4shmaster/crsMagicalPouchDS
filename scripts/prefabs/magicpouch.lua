@@ -14,6 +14,13 @@ local assets = {
  Asset("ANIM", "anim/magicpouch.zip"),
 }
 
+local crsMagicalPouchDS = nil
+if GetModConfigData("crsMagicalPouchTest", "workshop-399011777") == 1 then
+ crsMagicalPouchDS = "workshop-399011777"
+else
+ crsMagicalPouchDS = "crsMagicalPouchDS"
+end
+
 local function crsOnDropped(inst, owner)
  inst.components.container:Close(owner)
 end
@@ -63,7 +70,7 @@ local function fn(Sim)
  if inst then
   -- autocollect items func
   local function crsSearchForItem(inst)  
-   local crsItem = FindEntity(inst, GetModConfigData("crsMagicalPouchAutoCollectRadius", "workshop-399011777"), function(crsItem) 
+   local crsItem = FindEntity(inst, GetModConfigData("crsMagicalPouchAutoCollectRadius", crsMagicalPouchDS), function(crsItem) 
     return crsItem.components.inventoryitem and 
     crsItem.components.inventoryitem.canbepickedup and
     crsItem.components.inventoryitem.cangoincontainer
@@ -85,8 +92,8 @@ local function fn(Sim)
    end
   end
   -- do periodic task
-  if GetModConfigData("crsMagicalPouchAutoCollectToggle", "workshop-399011777") == 1 then
-   inst:DoPeriodicTask(GetModConfigData("crsMagicalPouchAutoCollectInterval", "workshop-399011777"), crsSearchForItem)
+  if GetModConfigData("crsMagicalPouchAutoCollectToggle", crsMagicalPouchDS) == 1 then
+   inst:DoPeriodicTask(GetModConfigData("crsMagicalPouchAutoCollectInterval", crsMagicalPouchDS), crsSearchForItem)
   end
  end
 
