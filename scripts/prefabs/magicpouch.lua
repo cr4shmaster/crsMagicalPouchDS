@@ -75,7 +75,7 @@ local function fn(Sim)
     crsItem.components.inventoryitem.canbepickedup and
     crsItem.components.inventoryitem.cangoincontainer
    end)
-   if crsItem then -- if valid
+   if crsItem and not crsItem:HasTag("crsNoAutoCollect") then -- if valid
     local crsGiven = 0
     if crsItem.components.stackable then -- if stackable
      local crsCanBeStacked = inst.components.container:FindItem(function(crsExistingItem)

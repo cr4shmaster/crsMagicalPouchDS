@@ -264,6 +264,7 @@ AddPrefabPostInit("blowdart_fire", crsNoAutoCollect)
 AddPrefabPostInit("blowdart_sleep", crsNoAutoCollect)
 if crsShipwreckedEnabled then
  AddPrefabPostInit("doydoy", crsNoAutoCollect)
+ AddPrefabPostInit("seatrap", crsNoAutoCollect)
 end
 -- UMP
 local function crsGoesInUtilityMagicalPouch(inst)
@@ -283,6 +284,10 @@ AddPrefabPostInit("heatrock", crsGoesInUtilityMagicalPouch)
 AddPrefabPostInit("waxwelljournal", crsGoesInUtilityMagicalPouch)
 AddPrefabPostInit("sewing_kit", crsGoesInUtilityMagicalPouch)
 AddPrefabPostInit("gunpowder", crsGoesInUtilityMagicalPouch)
+if crsShipwreckedEnabled then
+ AddPrefabPostInit("tropicalfan", crsGoesInUtilityMagicalPouch)
+ AddPrefabPostInit("packim_fishbone", crsGoesInUtilityMagicalPouch)
+end
 
 -- configure itemtest
 -- IMP
