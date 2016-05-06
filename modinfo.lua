@@ -1,6 +1,7 @@
 name = "Magical Pouch v3.1.2"
 description = "Shrinks items to fit in your pocket!"
 author = "cr4shmaster"
+version = "3.3.0"
 forumthread = ""
 api_version = 6
 dont_starve_compatible = true
