@@ -1,5 +1,3 @@
-require "prefabutil"
-
 local assets = {
  Asset("ATLAS", "images/inventoryimages/pouchhuge.xml"),
  Asset("IMAGE", "images/inventoryimages/pouchhuge.tex"),
@@ -12,7 +10,6 @@ local assets = {
  Asset("ATLAS", "images/inventoryimages/pouchzilla.xml"),
  Asset("IMAGE", "images/inventoryimages/pouchzilla.tex"),
  Asset("ANIM", "anim/utilpouch.zip"),
- Asset("SOUND", "sound/deerclops.fsb"),
 }
 
 local crsMagicalPouchDS = nil

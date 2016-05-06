@@ -1,5 +1,3 @@
-require "prefabutil"
-
 local assets = {
  Asset("ATLAS", "images/inventoryimages/pouchhuge.xml"),
  Asset("IMAGE", "images/inventoryimages/pouchhuge.tex"),

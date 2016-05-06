@@ -4,6 +4,12 @@ PrefabFiles = {
  "utilpouch",
 }
 
+local crsPouches = {
+ "MagicalPouch",
+ "IcyMagicalPouch",
+ "UtilityMagicalPouch",
+}
+
 Assets = {
  Asset("ATLAS", "images/inventoryimages/magicpouch.xml"),
  Asset("IMAGE", "images/inventoryimages/magicpouch.tex"),
@@ -19,23 +25,30 @@ Assets = {
  Asset("IMAGE", "minimap/utilpouch.tex" ),
 }
 
--- add minimap icons
-AddMinimapAtlas("minimap/magicpouch.xml")
-AddMinimapAtlas("minimap/icepouch.xml")
-AddMinimapAtlas("minimap/utilpouch.xml")
-
 STRINGS = GLOBAL.STRINGS
 RECIPETABS = GLOBAL.RECIPETABS
 Recipe = GLOBAL.Recipe
 Ingredient = GLOBAL.Ingredient
 TECH = GLOBAL.TECH
 Vector3 = GLOBAL.Vector3
+IsDLCEnabled = GLOBAL.IsDLCEnabled
+getConfig = GetModConfigData
 
-local crsShipwreckedEnabled = GLOBAL.IsDLCEnabled(GLOBAL.CAPY_DLC)
-local crsRecipeTab = GetModConfigData("crsMagicalPouchRecipeTab")
-local crsRecipeTech = GetModConfigData("crsMagicalPouchRecipeTech")
+-- local crsNoDLCEnabled = not IsDLCEnabled(GLOBAL.REIGN_OF_GIANTS) and not IsDLCEnabled(GLOBAL.CAPY_DLC)
+-- local crsAnyDLCEnabled = IsDLCEnabled(GLOBAL.REIGN_OF_GIANTS) or IsDLCEnabled(GLOBAL.CAPY_DLC)
+-- local crsReignOfGiantsEnabled = IsDLCEnabled(GLOBAL.REIGN_OF_GIANTS)
+local crsShipwreckedEnabled = IsDLCEnabled(GLOBAL.CAPY_DLC)
 
--- add strings
+
+-- MAP ICONS --
+
+AddMinimapAtlas("minimap/magicpouch.xml")
+AddMinimapAtlas("minimap/icepouch.xml")
+AddMinimapAtlas("minimap/utilpouch.xml")
+
+
+-- STRINGS --
+
 STRINGS.NAMES.MAGICPOUCH = "Magical Pouch"
 STRINGS.RECIPE_DESC.MAGICPOUCH = "Shrinks items to fit in your pocket!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.MAGICPOUCH = "Shrinks items to fit in your pocket!"
@@ -46,16 +59,20 @@ STRINGS.NAMES.UTILPOUCH = "Utility Magical Pouch"
 STRINGS.RECIPE_DESC.UTILPOUCH = "A Magical Pouch that can store tools, instruments and weapons!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.UTILPOUCH = "A Magical Pouch that can store tools, instruments and weapons!"
 
--- add recipes
-local crsMagicalPouchRecipeDarkMotes = Ingredient("darkmote", GetModConfigData("crsMagicalPouchRecipeDarkMotes"))
+-- RECIPES --
+
+local crsRecipeTab = getConfig("crsMagicalPouchRecipeTab")
+local crsRecipeTech = getConfig("crsMagicalPouchRecipeTech")
+local crsMagicalPouchRecipeDarkMotes = Ingredient("darkmote", getConfig("crsMagicalPouchRecipeDarkMotes"))
 crsMagicalPouchRecipeDarkMotes.atlas = "images/inventoryimages/darkmote.xml"
-local crsIcyMagicalPouchRecipeDarkMotes = Ingredient("darkmote", GetModConfigData("crsIcyMagicalPouchRecipeDarkMotes"))
+local crsIcyMagicalPouchRecipeDarkMotes = Ingredient("darkmote", getConfig("crsIcyMagicalPouchRecipeDarkMotes"))
 crsIcyMagicalPouchRecipeDarkMotes.atlas = "images/inventoryimages/darkmote.xml"
-local crsUtilityMagicalPouchRecipeDarkMotes = Ingredient("darkmote", GetModConfigData("crsUtilityMagicalPouchRecipeDarkMotes"))
+local crsUtilityMagicalPouchRecipeDarkMotes = Ingredient("darkmote", getConfig("crsUtilityMagicalPouchRecipeDarkMotes"))
 crsUtilityMagicalPouchRecipeDarkMotes.atlas = "images/inventoryimages/darkmote.xml"
-local crsIsIcyMagicalPouchEnabled = GetModConfigData("crsIcyMagicalPouchRecipeToggle") == 1
-local crsIsUtilityMagicalPouchEnabled = GetModConfigData("crsUtilityMagicalPouchRecipeToggle") == 1
-local crsIsDarkMatterCompatibilityEnabled = GetModConfigData("crsDarkMatterCompatibilityToggle") == 1
+local crsIsIcyMagicalPouchEnabled = getConfig("crsIcyMagicalPouchRecipeToggle") == 1
+local crsIsUtilityMagicalPouchEnabled = getConfig("crsUtilityMagicalPouchRecipeToggle") == 1
+local crsIsDarkMatterCompatibilityEnabled = getConfig("crsDarkMatterCompatibilityToggle") == 1
+
 local recipeTab = RECIPETABS.ANCIENT
 if crsRecipeTab == 2 then
  recipeTab = RECIPETABS.MAGIC
@@ -80,7 +97,7 @@ elseif crsRecipeTech == 6 then
 elseif crsRecipeTech == 7 then
  recipeTech = TECH.OBSIDIAN_TWO
 end
--- MP
+-- Magical Pouch --
 if crsIsDarkMatterCompatibilityEnabled then
  local magicpouch = Recipe("magicpouch", {
   crsMagicalPouchRecipeDarkMotes,
@@ -88,13 +105,13 @@ if crsIsDarkMatterCompatibilityEnabled then
  magicpouch.atlas = "images/inventoryimages/magicpouch.xml"
 else 
  local magicpouch = Recipe("magicpouch", {
-  Ingredient("rope", GetModConfigData("crsMagicalPouchRecipeRope")),
-  Ingredient("silk", GetModConfigData("crsMagicalPouchRecipeWeb")),
-  Ingredient("purplegem", GetModConfigData("crsMagicalPouchRecipePurpleGem")),
+  Ingredient("rope", getConfig("crsMagicalPouchRecipeRope")),
+  Ingredient("silk", getConfig("crsMagicalPouchRecipeWeb")),
+  Ingredient("purplegem", getConfig("crsMagicalPouchRecipePurpleGem")),
  }, recipeTab, recipeTech)
  magicpouch.atlas = "images/inventoryimages/magicpouch.xml"
 end
--- IMP
+-- Icy Magical Pouch --
 if crsIsIcyMagicalPouchEnabled then
  if crsIsDarkMatterCompatibilityEnabled then
   local icepouch = Recipe("icepouch", {
@@ -103,14 +120,14 @@ if crsIsIcyMagicalPouchEnabled then
   icepouch.atlas = "images/inventoryimages/icepouch.xml"
  else 
   local icepouch = Recipe("icepouch", {
-   Ingredient("rope", GetModConfigData("crsIcyMagicalPouchRecipeRope")),
-   Ingredient("silk", GetModConfigData("crsIcyMagicalPouchRecipeWeb")),
-   Ingredient("bluegem", GetModConfigData("crsIcyMagicalPouchRecipeBlueGem")),
+   Ingredient("rope", getConfig("crsIcyMagicalPouchRecipeRope")),
+   Ingredient("silk", getConfig("crsIcyMagicalPouchRecipeWeb")),
+   Ingredient("bluegem", getConfig("crsIcyMagicalPouchRecipeBlueGem")),
   }, recipeTab, recipeTech)
   icepouch.atlas = "images/inventoryimages/icepouch.xml"
  end
 end
--- UMP
+-- Utility Magical Pouch --
 if crsIsUtilityMagicalPouchEnabled then
  if crsIsDarkMatterCompatibilityEnabled then
   local utilpouch = Recipe("utilpouch", {
@@ -119,178 +136,113 @@ if crsIsUtilityMagicalPouchEnabled then
   utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
  else 
   local utilpouch = Recipe("utilpouch", {
-   Ingredient("rope", GetModConfigData("crsUtilityMagicalPouchRecipeRope")),
-   Ingredient("silk", GetModConfigData("crsUtilityMagicalPouchRecipeWeb")),
-   Ingredient("livinglog", GetModConfigData("crsUtilityMagicalPouchRecipeLivingLog")),
+   Ingredient("rope", getConfig("crsUtilityMagicalPouchRecipeRope")),
+   Ingredient("silk", getConfig("crsUtilityMagicalPouchRecipeWeb")),
+   Ingredient("livinglog", getConfig("crsUtilityMagicalPouchRecipeLivingLog")),
   }, recipeTab, recipeTech)
   utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
  end
 end
 
--- add tint
+-- TINT --
+
 local function crsImageTintUpdate(self, num, atlas, bgim, owner, container)
  if container.widgetbgimagetint then
   self.bgimage:SetTint(container.widgetbgimagetint.r, container.widgetbgimagetint.g, container.widgetbgimagetint.b, container.widgetbgimagetint.a)
-    end
+ end
 end
 AddClassPostConstruct("widgets/invslot", crsImageTintUpdate)
 
--- create widget
-local crsWidgetPosition = Vector3(GetModConfigData("crsHorizontalPositon"),GetModConfigData("crsVerticalPositon"),0) -- background image position
--- 2x2 pouch
-local function crsPouchSmall(inst)
+-- CONTAINER --
+
+local crsWidgetPosition = Vector3(getConfig("crsHorizontalPositon"),getConfig("crsVerticalPositon"),0) -- background image position
+
+local crsPouchSizes = {
+ {id = 1, name = "pouchsmall", xy = 1, offset = 40},
+ {id = 2, name = "pouchmedium", xy = 2, offset = 80},
+ {id = 3, name = "pouchbig", xy = 3, offset = 120},
+ {id = 4, name = "pouchhuge", xy = 4, offset = 160},
+ {id = 5, name = "pouchzilla", x = 19, y = 4, xoffset = 762, yoffset = 160},
+}
+
+local crsPouchSizeConfig = 1
+
+local function crsPouchPostInit(inst)
  local slotpos = {}
- for y = 1, 0, -1 do
-  for x = 0, 1 do
-  table.insert(slotpos, Vector3(80*x-40, 80*y-40,0))
+ local pouch = crsPouchSizes[crsPouchSizeConfig]
+ for y = (pouch.xy or pouch.y), 0, -1 do
+  for x = 0, (pouch.xy or pouch.x) do
+  table.insert(slotpos, Vector3(80 * x - (pouch.offset or pouch.xoffset), 80 * y - (pouch.offset or pouch.yoffset), 0))
   end
  end
  inst.components.container:SetNumSlots(#slotpos)
  inst.components.container.widgetslotpos = slotpos
- inst.components.container.widgetbgimage = "pouchsmall.tex"
- inst.components.container.widgetbgatlas = "images/inventoryimages/pouchsmall.xml"
+ inst.components.container.widgetbgimage = pouch.name..".tex"
+ inst.components.container.widgetbgatlas = "images/inventoryimages/"..pouch.name..".xml"
  inst.components.container.widgetpos = crsWidgetPosition
-end
--- 3x3 pouch
-local function crsPouchMedium(inst)
- local slotpos = {}
- for y = 2, 0, -1 do
-  for x = 0, 2 do
-  table.insert(slotpos, Vector3(80*x-80, 80*y-80,0))
-  end
- end
- inst.components.container:SetNumSlots(#slotpos)
- inst.components.container.widgetslotpos = slotpos
- inst.components.container.widgetbgimage = "pouchmedium.tex"
- inst.components.container.widgetbgatlas = "images/inventoryimages/pouchmedium.xml"
- inst.components.container.widgetpos = crsWidgetPosition
-end
--- 4x4 pouch
-local function crsPouchBig(inst)
- local slotpos = {}
- for y = 3, 0, -1 do
-  for x = 0, 3 do
-  table.insert(slotpos, Vector3(80*x-120, 80*y-120,0))
-  end
- end
- inst.components.container:SetNumSlots(#slotpos)
- inst.components.container.widgetslotpos = slotpos
- inst.components.container.widgetbgimage = "pouchbig.tex"
- inst.components.container.widgetbgatlas = "images/inventoryimages/pouchbig.xml"
- inst.components.container.widgetpos = crsWidgetPosition
-end
--- 5x5 pouch
-local function crsPouchHuge(inst)
- local slotpos = {}
- for y = 4, 0, -1 do
-  for x = 0, 4 do
-  table.insert(slotpos, Vector3(80*x-160, 80*y-160,0))
-  end
- end
- inst.components.container:SetNumSlots(#slotpos)
- inst.components.container.widgetslotpos = slotpos
- inst.components.container.widgetbgimage = "pouchhuge.tex"
- inst.components.container.widgetbgatlas = "images/inventoryimages/pouchhuge.xml"
- inst.components.container.widgetpos = crsWidgetPosition
-end
--- 5x20 pouch
-local function crsPouchzilla(inst)
- local slotpos = {}
- for y = 4, 0, -1 do
-  for x = 0, 19 do
-  table.insert(slotpos, Vector3(80*x-762, 80*y-160,0))
-  end
- end
- inst.components.container:SetNumSlots(#slotpos)
- inst.components.container.widgetslotpos = slotpos
- inst.components.container.widgetbgimage = "pouchzilla.tex"
- inst.components.container.widgetbgatlas = "images/inventoryimages/pouchzilla.xml"
- inst.components.container.widgetpos = crsWidgetPosition
-end
--- MP
-local crsGetMagicalPouchSize = GetModConfigData("crsMagicalPouchSize")
-if crsGetMagicalPouchSize == 2 then
- AddPrefabPostInit("magicpouch", crsPouchMedium)
-elseif crsGetMagicalPouchSize == 3 then
- AddPrefabPostInit("magicpouch", crsPouchBig)
-elseif crsGetMagicalPouchSize == 4 then
- AddPrefabPostInit("magicpouch", crsPouchHuge)
-elseif crsGetMagicalPouchSize == 5 then
- AddPrefabPostInit("magicpouch", crsPouchzilla)
-else
- AddPrefabPostInit("magicpouch", crsPouchSmall)
-end
--- IMP
-local crsGetIcyMagicalPouchSize = GetModConfigData("crsIcyMagicalPouchSize")
-if crsGetIcyMagicalPouchSize == 2 then
- AddPrefabPostInit("icepouch", crsPouchMedium)
-elseif crsGetIcyMagicalPouchSize == 3 then
- AddPrefabPostInit("icepouch", crsPouchBig)
-elseif crsGetIcyMagicalPouchSize == 4 then
- AddPrefabPostInit("icepouch", crsPouchHuge)
-elseif crsGetIcyMagicalPouchSize == 5 then
- AddPrefabPostInit("icepouch", crsPouchzilla)
-else
- AddPrefabPostInit("icepouch", crsPouchSmall)
-end
--- UMP
-local crsGetUtilityMagicalPouchSize = GetModConfigData("crsUtilityMagicalPouchSize")
-if crsGetUtilityMagicalPouchSize == 2 then
- AddPrefabPostInit("utilpouch", crsPouchMedium)
-elseif crsGetUtilityMagicalPouchSize == 3 then
- AddPrefabPostInit("utilpouch", crsPouchBig)
-elseif crsGetUtilityMagicalPouchSize == 4 then
- AddPrefabPostInit("utilpouch", crsPouchHuge)
-elseif crsGetUtilityMagicalPouchSize == 5 then
- AddPrefabPostInit("utilpouch", crsPouchzilla)
-else
- AddPrefabPostInit("utilpouch", crsPouchSmall)
 end
 
--- update tags
+for k = 1, #crsPouches do
+ crsPouchSizeConfig = getConfig("crs"..crsPouches[k].."Size")
+ AddPrefabPostInit(PrefabFiles[k], crsPouchPostInit)
+end
+
+-- TAGS --
+
 local function crsNoAutoCollect(inst)
  inst:AddTag("crsNoAutoCollect") -- items with this tag are not picked up automatically
 end
-AddPrefabPostInit("pumpkin_lantern", crsNoAutoCollect)
-AddPrefabPostInit("trap", crsNoAutoCollect)
-AddPrefabPostInit("birdtrap", crsNoAutoCollect)
-AddPrefabPostInit("trap_teeth", crsNoAutoCollect)
-AddPrefabPostInit("beemine", crsNoAutoCollect)
-AddPrefabPostInit("boomerang", crsNoAutoCollect)
-AddPrefabPostInit("lantern", crsNoAutoCollect)
-AddPrefabPostInit("gunpowder", crsNoAutoCollect)
-AddPrefabPostInit("blowdart_pipe", crsNoAutoCollect)
-AddPrefabPostInit("blowdart_fire", crsNoAutoCollect)
-AddPrefabPostInit("blowdart_sleep", crsNoAutoCollect)
-if crsShipwreckedEnabled then
- AddPrefabPostInit("doydoy", crsNoAutoCollect)
- AddPrefabPostInit("seatrap", crsNoAutoCollect)
+local crsNoAutoCollectList = {
+ "pumpkin_lantern",
+ "trap",
+ "birdtrap",
+ "trap_teeth",
+ "beemine",
+ "boomerang",
+ "lantern",
+ "gunpowder",
+ "blowdart_pipe",
+ "blowdart_fire",
+ "blowdart_sleep",
+ "doydoy",
+ "seatrap",
+}
+for k = 1, #crsNoAutoCollectList do
+ if crsNoAutoCollectList[k] then
+  AddPrefabPostInit(crsNoAutoCollectList[k], crsNoAutoCollect)
+ end
 end
--- UMP
+-- Utility Magical Pouch --
 local function crsGoesInUtilityMagicalPouch(inst)
- inst:AddTag("crsGoesInUtilityMagicalPouch") -- items with this tag can go in UMP
+ inst:AddTag("crsGoesInUtilityMagicalPouch") -- items with this tag can go in Utility Magical Pouch
 end
-AddPrefabPostInit("webberskull", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("chester_eyebone", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("compass", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("fertilizer", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("featherfan", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("bedroll_furry", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("bedroll_straw", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("healingsalve", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("bandage", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("pumpkin_lantern", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("heatrock", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("waxwelljournal", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("sewing_kit", crsGoesInUtilityMagicalPouch)
-AddPrefabPostInit("gunpowder", crsGoesInUtilityMagicalPouch)
-if crsShipwreckedEnabled then
- AddPrefabPostInit("tropicalfan", crsGoesInUtilityMagicalPouch)
- AddPrefabPostInit("packim_fishbone", crsGoesInUtilityMagicalPouch)
+local crsGoesInUtilityMagicalPouchList = {
+ "webberskull",
+ "chester_eyebone",
+ "compass",
+ "fertilizer",
+ "featherfan",
+ "bedroll_furry",
+ "bedroll_straw",
+ "healingsalve",
+ "bandage",
+ "pumpkin_lantern",
+ "heatrock",
+ "waxwelljournal",
+ "sewing_kit",
+ "gunpowder",
+ "tropicalfan",
+ "packim_fishbone",
+}
+for k = 1, #crsGoesInUtilityMagicalPouchList do
+ if crsGoesInUtilityMagicalPouchList[k] then
+  AddPrefabPostInit(crsGoesInUtilityMagicalPouchList[k], crsGoesInUtilityMagicalPouch)
+ end
 end
 
--- configure itemtest
--- IMP
+-- ITEM TEST --
+
+-- Icy Magical Pouch --
 local function crsIcyMagicalPouchItemTest(inst, item, slot)
  return (item.components.edible and item.components.perishable) or 
  item.prefab == "mandrake" or 
@@ -304,7 +256,7 @@ local function crsIcyMagicalPouchItemTestUpdate(inst)
  inst.components.container.itemtestfn = crsIcyMagicalPouchItemTest
 end
 AddPrefabPostInit("icepouch", crsIcyMagicalPouchItemTestUpdate)
--- UMP
+-- Utility Magical Pouch --
 local function crsUtilityMagicalPouchItemTest(inst, item, slot)
  return item.components.tool or
  item.components.instrument or
@@ -323,7 +275,7 @@ local function crsUtilityMagicalPouchItemTestUpdate(inst)
  inst.components.container.itemtestfn = crsUtilityMagicalPouchItemTest
 end
 AddPrefabPostInit("utilpouch", crsUtilityMagicalPouchItemTestUpdate)
--- MP
+-- Magical Pouch --
 local function crsMagicalPouchItemTest(inst, item, slot)
  if crsIsIcyMagicalPouchEnabled and crsIsUtilityMagicalPouchEnabled then
   return not item:HasTag("crsMagicalPouch") and
@@ -344,9 +296,9 @@ local function crsMagicalPouchItemTestUpdate(inst)
 end
 AddPrefabPostInit("magicpouch", crsMagicalPouchItemTestUpdate)
 
--- tweak trap component
-local function crsTrapComponentUpdate(self)
+-- TRAPS --
 
+local function crsTrapComponentUpdate(self)
  function self:RemoveBait()
   if self.bait then
    self.bait:RemoveTag("crsNoAutoCollect") -- added
@@ -357,7 +309,6 @@ local function crsTrapComponentUpdate(self)
    self.bait = nil
   end
  end
- 
  function self:SetBait(bait)
   self:RemoveBait()
   if bait and bait.components.bait then
@@ -373,6 +324,5 @@ local function crsTrapComponentUpdate(self)
    end
   end
  end
- 
 end
 AddComponentPostInit("trap", crsTrapComponentUpdate)
