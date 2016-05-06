@@ -1,7 +1,6 @@
 name = "Magical Pouch v3.1.2"
 description = "Shrinks items to fit in your pocket!"
 author = "cr4shmaster"
-version = "3.2.1"
 forumthread = ""
 api_version = 6
 dont_starve_compatible = true
@@ -189,12 +188,6 @@ configuration_options = {
   default = 5,
  },
  {
-  name = "crsMagicalPouchAutoCollectToggle",
-  label = "MP Collect Toggle",
-  options = crsToggle,
-  default = 1,
- },
- {
   name = "crsMagicalPouchAutoCollectRadius",
   label = "MP Collect Radius",
   options = crsRadius,
@@ -255,12 +248,6 @@ configuration_options = {
   default = 10,
  },
  {
-  name = "crsIcyMagicalPouchAutoCollectToggle",
-  label = "IMP Collect Toggle",
-  options = crsToggle,
-  default = 1,
- },
- {
   name = "crsIcyMagicalPouchAutoCollectRadius",
   label = "IMP Collect Radius",
   options = crsRadius,
@@ -301,12 +288,6 @@ configuration_options = {
   label = "UMP Living Log",
   options = crsIngredient,
   default = 10,
- },
- {
-  name = "crsUtilityMagicalPouchAutoCollectToggle",
-  label = "UMP Collect Toggle",
-  options = crsToggle,
-  default = 1,
  },
  {
   name = "crsUtilityMagicalPouchAutoCollectRadius",

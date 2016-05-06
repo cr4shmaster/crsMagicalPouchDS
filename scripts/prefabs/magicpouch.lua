@@ -12,13 +12,6 @@ local assets = {
  Asset("ANIM", "anim/magicpouch.zip"),
 }
 
-local crsMagicalPouchDS = nil
-if GetModConfigData("crsMagicalPouchTest", "workshop-399011777") == 1 then
- crsMagicalPouchDS = "workshop-399011777"
-else
- crsMagicalPouchDS = "crsMagicalPouchDS"
-end
-
 local function fn(Sim)
  local inst = CreateEntity()
  
@@ -34,6 +27,7 @@ local function fn(Sim)
  inst.entity:AddSoundEmitter()
  
  inst:AddTag("crsMagicalPouch")
+ inst.crsAutoCollectToggle = 0
 
  local minimap = inst.entity:AddMiniMapEntity()
  minimap:SetIcon("magicpouch.tex")
@@ -49,36 +43,6 @@ local function fn(Sim)
  inst.components.container.widgetanimbuild = nil
  inst.components.container.side_align_tip = 160
  
- if inst then
-  -- autocollect items func
-  local function crsSearchForItem(inst)  
-   local crsItem = FindEntity(inst, GetModConfigData("crsMagicalPouchAutoCollectRadius", crsMagicalPouchDS), function(crsItem) 
-    return crsItem.components.inventoryitem and 
-    crsItem.components.inventoryitem.canbepickedup and
-    crsItem.components.inventoryitem.cangoincontainer
-   end)
-   if crsItem and not crsItem:HasTag("crsNoAutoCollect") then -- if valid
-    local crsGiven = 0
-    if crsItem.components.stackable then -- if stackable
-     local crsCanBeStacked = inst.components.container:FindItem(function(crsExistingItem)
-      return (crsExistingItem.prefab == crsItem.prefab and not crsExistingItem.components.stackable:IsFull())
-     end)
-     if crsCanBeStacked then -- if can be stacked
-      inst.components.container:GiveItem(crsItem)
-      crsGiven = 1
-     end
-    end
-    if not inst.components.container:IsFull() and crsGiven == 0 then -- else if not full
-     inst.components.container:GiveItem(crsItem)
-    end
-   end
-  end
-  -- do periodic task
-  if GetModConfigData("crsMagicalPouchAutoCollectToggle", crsMagicalPouchDS) == 1 then
-   inst:DoPeriodicTask(GetModConfigData("crsMagicalPouchAutoCollectInterval", crsMagicalPouchDS), crsSearchForItem)
-  end
- end
-
  return inst
 end
 

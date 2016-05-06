@@ -34,6 +34,7 @@ Vector3 = GLOBAL.Vector3
 IsDLCEnabled = GLOBAL.IsDLCEnabled
 getConfig = GetModConfigData
 GetPlayer = GLOBAL.GetPlayer
+FindEntity = GLOBAL.FindEntity
 
 -- local crsNoDLCEnabled = not IsDLCEnabled(GLOBAL.REIGN_OF_GIANTS) and not IsDLCEnabled(GLOBAL.CAPY_DLC)
 -- local crsAnyDLCEnabled = IsDLCEnabled(GLOBAL.REIGN_OF_GIANTS) or IsDLCEnabled(GLOBAL.CAPY_DLC)
@@ -158,34 +159,32 @@ AddClassPostConstruct("widgets/invslot", crsImageTintUpdate)
 
 local crsWidgetPosition = Vector3(getConfig("crsHorizontalPositon"),getConfig("crsVerticalPositon"),0) -- background image position
 
-local crsPouchSizes = {
- {id = 1, name = "pouchsmall", xy = 1, offset = 40},
- {id = 2, name = "pouchmedium", xy = 2, offset = 80},
- {id = 3, name = "pouchbig", xy = 3, offset = 120},
- {id = 4, name = "pouchhuge", xy = 4, offset = 160},
- {id = 5, name = "pouchzilla", x = 19, y = 4, xoffset = 762, yoffset = 160},
+local crsPouchDetails = {
+ {id = 1, name = "pouchsmall", xy = 2, offset = 40, buttonx = 0, buttony = -100},
+ {id = 2, name = "pouchmedium", xy = 3, offset = 80, buttonx = 0, buttony = -145},
+ {id = 3, name = "pouchbig", xy = 4, offset = 120, buttonx = 0, buttony = -185},
+ {id = 4, name = "pouchhuge", xy = 5, offset = 160, buttonx = 5, buttony = -225},
+ {id = 5, name = "pouchzilla", x = 20, y = 5, xoffset = 762, yoffset = 160, buttonx = 20, buttony = -225},
 }
 
-local crsPouchSizeConfig = 1
-
-local function crsPouchPostInit(inst)
- local slotpos = {}
- local pouch = crsPouchSizes[crsPouchSizeConfig]
- for y = (pouch.xy or pouch.y), 0, -1 do
-  for x = 0, (pouch.xy or pouch.x) do
-  table.insert(slotpos, Vector3(80 * x - (pouch.offset or pouch.xoffset), 80 * y - (pouch.offset or pouch.yoffset), 0))
-  end
- end
- inst.components.container:SetNumSlots(#slotpos)
- inst.components.container.widgetslotpos = slotpos
- inst.components.container.widgetbgimage = pouch.name..".tex"
- inst.components.container.widgetbgatlas = "images/inventoryimages/"..pouch.name..".xml"
- inst.components.container.widgetpos = crsWidgetPosition
-end
+local crsButtonPosition = {}
 
 for k = 1, #crsPouches do
- crsPouchSizeConfig = getConfig("crs"..crsPouches[k].."Size")
- AddPrefabPostInit(PrefabFiles[k], crsPouchPostInit)
+ local pouch = crsPouchDetails[getConfig("crs"..crsPouches[k].."Size")]
+ table.insert(crsButtonPosition, {x = pouch.buttonx, y = pouch.buttony})
+ AddPrefabPostInit(PrefabFiles[k], function(inst)
+  local slotpos = {}
+  for y = (pouch.xy or pouch.y), 1, -1 do
+   for x = 1, (pouch.xy or pouch.x) do
+   table.insert(slotpos, Vector3(80 * (x-1) - (pouch.offset or pouch.xoffset), 80 * (y-1) - (pouch.offset or pouch.yoffset), 0))
+   end
+  end
+  inst.components.container:SetNumSlots(#slotpos)
+  inst.components.container.widgetslotpos = slotpos
+  inst.components.container.widgetbgimage = pouch.name..".tex"
+  inst.components.container.widgetbgatlas = "images/inventoryimages/"..pouch.name..".xml"
+  inst.components.container.widgetpos = crsWidgetPosition
+ end)
 end
 
 -- TAGS --
@@ -328,12 +327,13 @@ local function crsTrapComponentUpdate(self)
 end
 AddComponentPostInit("trap", crsTrapComponentUpdate)
 
--- ON OPEN/CLOSED/DROPPED --
+-- ON OPEN/CLOSED/DROPPED/SAVE/LOAD --
 
 local oldOverflow = nil
 
 local function crsOnDropped(inst, owner)
  inst.components.container:Close(owner)
+ inst.crsAutoCollectToggle = 0
 end
 
 local function crsOnOpen(inst)
@@ -355,5 +355,61 @@ for k = 1, #PrefabFiles do
   inst.components.inventoryitem:SetOnDroppedFn(crsOnDropped)
   inst.components.container.onopenfn = crsOnOpen
   inst.components.container.onclosefn = crsOnClose
+  inst.OnSave = function(inst, data)
+   data.crsAutoCollectToggle = inst.crsAutoCollectToggle
+  end
+  inst.OnLoad = function(inst, data)
+   if data and data.crsAutoCollectToggle then
+    inst.crsAutoCollectToggle = data.crsAutoCollectToggle
+   end
+  end
+ end)
+end
+
+-- AUTOCOLLECT --
+
+for k = 1, #PrefabFiles do
+ local function crsSearchForItem(inst)
+  local crsItem = FindEntity(inst, getConfig("crs"..crsPouches[k].."AutoCollectRadius"), function(crsItem) 
+   return crsItem.components.inventoryitem and 
+   crsItem.components.inventoryitem.canbepickedup and
+   crsItem.components.inventoryitem.cangoincontainer
+  end)
+  if crsItem and not crsItem:HasTag("crsNoAutoCollect") then -- if valid
+   local crsGiven = 0
+   if crsItem.components.stackable then -- if stackable
+    local crsCanBeStacked = inst.components.container:FindItem(function(crsExistingItem)
+     return (crsExistingItem.prefab == crsItem.prefab and not crsExistingItem.components.stackable:IsFull())
+    end)
+    if crsCanBeStacked then -- if can be stacked
+     inst.components.container:GiveItem(crsItem)
+     crsGiven = 1
+    end
+   end
+   if not inst.components.container:IsFull() and crsGiven == 0 then -- else if not full
+    inst.components.container:GiveItem(crsItem)
+   end
+  end
+ end
+
+ local crsToggleButton = {
+  text = "Toggle",
+  position = Vector3(crsButtonPosition[k].x, crsButtonPosition[k].y, 0),
+  fn = function(inst)
+   if inst.crsAutoCollectToggle == 0 then
+    inst:DoPeriodicTask(getConfig("crs"..crsPouches[k].."AutoCollectInterval"), crsSearchForItem)
+    inst.crsAutoCollectToggle = 1
+   else
+    inst:CancelAllPendingTasks()
+    inst.crsAutoCollectToggle = 0
+   end
+  end,
+  validfn = function(prefab)
+   return true
+  end,
+ }
+ 
+ AddPrefabPostInit(PrefabFiles[k], function(inst)
+  inst.components.container.widgetbuttoninfo = crsToggleButton
  end)
 end
