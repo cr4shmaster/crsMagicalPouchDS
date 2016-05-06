@@ -33,6 +33,7 @@ TECH = GLOBAL.TECH
 Vector3 = GLOBAL.Vector3
 IsDLCEnabled = GLOBAL.IsDLCEnabled
 getConfig = GetModConfigData
+GetPlayer = GLOBAL.GetPlayer
 
 -- local crsNoDLCEnabled = not IsDLCEnabled(GLOBAL.REIGN_OF_GIANTS) and not IsDLCEnabled(GLOBAL.CAPY_DLC)
 -- local crsAnyDLCEnabled = IsDLCEnabled(GLOBAL.REIGN_OF_GIANTS) or IsDLCEnabled(GLOBAL.CAPY_DLC)
@@ -326,3 +327,33 @@ local function crsTrapComponentUpdate(self)
  end
 end
 AddComponentPostInit("trap", crsTrapComponentUpdate)
+
+-- ON OPEN/CLOSED/DROPPED --
+
+local oldOverflow = nil
+
+local function crsOnDropped(inst, owner)
+ inst.components.container:Close(owner)
+end
+
+local function crsOnOpen(inst)
+ oldOverflow = GetPlayer().components.inventory.overflow
+ GetPlayer().components.inventory:SetOverflow(inst)
+ GetPlayer().HUD.controls.crafttabs:UpdateRecipes()
+ inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_open", "open")
+end
+
+local function crsOnClose(inst)
+ GetPlayer().components.inventory:SetOverflow(oldOverflow)
+ GetPlayer().HUD.controls.crafttabs:UpdateRecipes()
+ inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_close", "open")
+ return (inst)
+end
+
+for k = 1, #PrefabFiles do
+ AddPrefabPostInit(PrefabFiles[k], function(inst)
+  inst.components.inventoryitem:SetOnDroppedFn(crsOnDropped)
+  inst.components.container.onopenfn = crsOnOpen
+  inst.components.container.onclosefn = crsOnClose
+ end)
+end

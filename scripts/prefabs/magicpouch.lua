@@ -19,19 +19,6 @@ else
  crsMagicalPouchDS = "crsMagicalPouchDS"
 end
 
-local function crsOnDropped(inst, owner)
- inst.components.container:Close(owner)
-end
-
-local function crsOnOpen(inst)
- inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_open", "open")
-end
-
-local function crsOnClose(inst)
- inst.SoundEmitter:PlaySound("dontstarve/wilson/backpack_close", "open")
- return (inst)
-end
-
 local function fn(Sim)
  local inst = CreateEntity()
  
@@ -54,13 +41,10 @@ local function fn(Sim)
  inst:AddComponent("inventoryitem")
  inst.components.inventoryitem.cangoincontainer = true
  inst.components.inventoryitem.atlasname = "images/inventoryimages/magicpouch.xml"
- inst.components.inventoryitem:SetOnDroppedFn(crsOnDropped)
 
  inst:AddComponent("inspectable")
  
  inst:AddComponent("container")
- inst.components.container.onopenfn = crsOnOpen
- inst.components.container.onclosefn = crsOnClose
  inst.components.container.widgetanimbank = nil 
  inst.components.container.widgetanimbuild = nil
  inst.components.container.side_align_tip = 160
