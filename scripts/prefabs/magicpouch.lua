@@ -27,7 +27,6 @@ local function fn(Sim)
  inst.entity:AddSoundEmitter()
  
  inst:AddTag("crsMagicalPouch")
- inst.crsAutoCollectToggle = 0
 
  local minimap = inst.entity:AddMiniMapEntity()
  minimap:SetIcon("magicpouch.tex")

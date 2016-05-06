@@ -38,7 +38,6 @@ local function fn(Sim)
  
  inst:AddTag("crsMagicalPouch")
  inst:AddTag("crsIcyMagicalPouch")
- inst.crsAutoCollectToggle = 0
  
  inst:AddTag("crsCustomPerishMult")
  inst.crsCustomPerishMult = getConfig("crsIcyMagicalPouchPerishMult", crsMagicalPouchDS)

@@ -327,7 +327,7 @@ local function crsTrapComponentUpdate(self)
 end
 AddComponentPostInit("trap", crsTrapComponentUpdate)
 
--- ON OPEN/CLOSED/DROPPED/SAVE/LOAD --
+-- ON OPEN/CLOSED/DROPPED --
 
 local oldOverflow = nil
 
@@ -355,14 +355,6 @@ for k = 1, #PrefabFiles do
   inst.components.inventoryitem:SetOnDroppedFn(crsOnDropped)
   inst.components.container.onopenfn = crsOnOpen
   inst.components.container.onclosefn = crsOnClose
-  inst.OnSave = function(inst, data)
-   data.crsAutoCollectToggle = inst.crsAutoCollectToggle
-  end
-  inst.OnLoad = function(inst, data)
-   if data and data.crsAutoCollectToggle then
-    inst.crsAutoCollectToggle = data.crsAutoCollectToggle
-   end
-  end
  end)
 end
 
@@ -411,5 +403,17 @@ for k = 1, #PrefabFiles do
  
  AddPrefabPostInit(PrefabFiles[k], function(inst)
   inst.components.container.widgetbuttoninfo = crsToggleButton
+  inst.OnSave = function(inst, data)
+   data.crsAutoCollectToggle = inst.crsAutoCollectToggle
+  end
+  inst.OnLoad = function(inst, data)
+   if data and data.crsAutoCollectToggle then
+    inst.crsAutoCollectToggle = data.crsAutoCollectToggle
+    if inst.crsAutoCollectToggle == 1 then
+     inst:DoPeriodicTask(getConfig("crs"..crsPouches[k].."AutoCollectInterval"), crsSearchForItem)
+    end    
+   end
+  end
  end)
+ 
 end

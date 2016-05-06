@@ -28,7 +28,6 @@ local function fn(Sim)
  
  inst:AddTag("crsMagicalPouch")
  inst:AddTag("crsUtilityMagicalPouch")
- inst.crsAutoCollectToggle = 0
 
  local minimap = inst.entity:AddMiniMapEntity()
  minimap:SetIcon("utilpouch.tex")
