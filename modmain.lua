@@ -233,6 +233,8 @@ local crsGoesInUtilityMagicalPouchList = {
  "gunpowder",
  "tropicalfan",
  "packim_fishbone",
+ "boatrepairkit",
+ "surfboard_item",
 }
 for k = 1, #crsGoesInUtilityMagicalPouchList do
  if crsGoesInUtilityMagicalPouchList[k] then
