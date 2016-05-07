@@ -3,6 +3,7 @@
 Vanilla, Reign of Giants and Shipwrecked compatible.
 
 Changes:
+
  Features:
  - added Icy Magical Pouch (IMP); it can hold food items;
  - added Utility Magical Pouch (UMP); it can hold weapons, tools, etc.
