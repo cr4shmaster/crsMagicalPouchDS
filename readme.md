@@ -1,6 +1,6 @@
 # Magical Pouch for Don't Starve
 
-Shipwrecked compatible.
+Vanilla, Reign of Giants and Shipwrecked compatible.
 
 Changes:
 
@@ -13,4 +13,4 @@ Changes:
 - made recipe tech configurable;
 - fixed a bug where food wouldn't spoil in the IMP;
 - made pouches act as overflow while open; they replace any backback for the duration;
-- added auto-collect toggle button
+- added auto-collect toggle button;
