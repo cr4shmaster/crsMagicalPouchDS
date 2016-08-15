@@ -5,9 +5,9 @@ PrefabFiles = {
 }
 
 local crsPouches = {
- "MagicalPouch",
- "IcyMagicalPouch",
- "UtilityMagicalPouch",
+ "MP",
+ "IMP",
+ "UMP",
 }
 
 Assets = {
@@ -35,19 +35,19 @@ IsDLCEnabled = GLOBAL.IsDLCEnabled
 getConfig = GetModConfigData
 GetPlayer = GLOBAL.GetPlayer
 FindEntity = GLOBAL.FindEntity
+RoG = GLOBAL.REIGN_OF_GIANTS
+SW = GLOBAL.CAPY_DLC
 
--- local crsNoDLCEnabled = not IsDLCEnabled(GLOBAL.REIGN_OF_GIANTS) and not IsDLCEnabled(GLOBAL.CAPY_DLC)
--- local crsAnyDLCEnabled = IsDLCEnabled(GLOBAL.REIGN_OF_GIANTS) or IsDLCEnabled(GLOBAL.CAPY_DLC)
--- local crsReignOfGiantsEnabled = IsDLCEnabled(GLOBAL.REIGN_OF_GIANTS)
-local crsShipwreckedEnabled = IsDLCEnabled(GLOBAL.CAPY_DLC)
-
+-- local noDLC = not IsDLCEnabled(RoG) and not GLOBAL.IsDLCEnabled(SW)
+-- local anyDLC = IsDLCEnabled(RoG) or IsDLCEnabled(SW)
+-- local rogDLC = IsDLCEnabled(RoG)
+-- local swDLC = IsDLCEnabled(SW)
 
 -- MAP ICONS --
 
 AddMinimapAtlas("minimap/magicpouch.xml")
 AddMinimapAtlas("minimap/icepouch.xml")
 AddMinimapAtlas("minimap/utilpouch.xml")
-
 
 -- STRINGS --
 
@@ -63,84 +63,78 @@ STRINGS.CHARACTERS.GENERIC.DESCRIBE.UTILPOUCH = "A Magical Pouch that can store 
 
 -- RECIPES --
 
-local crsRecipeTab = getConfig("crsMagicalPouchRecipeTab")
-local crsRecipeTech = getConfig("crsMagicalPouchRecipeTech")
-local crsMagicalPouchRecipeDarkMotes = Ingredient("darkmote", getConfig("crsMagicalPouchRecipeDarkMotes"))
-crsMagicalPouchRecipeDarkMotes.atlas = "images/inventoryimages/darkmote.xml"
-local crsIcyMagicalPouchRecipeDarkMotes = Ingredient("darkmote", getConfig("crsIcyMagicalPouchRecipeDarkMotes"))
-crsIcyMagicalPouchRecipeDarkMotes.atlas = "images/inventoryimages/darkmote.xml"
-local crsUtilityMagicalPouchRecipeDarkMotes = Ingredient("darkmote", getConfig("crsUtilityMagicalPouchRecipeDarkMotes"))
-crsUtilityMagicalPouchRecipeDarkMotes.atlas = "images/inventoryimages/darkmote.xml"
-local crsIsIcyMagicalPouchEnabled = getConfig("crsIcyMagicalPouchRecipeToggle") == 1
-local crsIsUtilityMagicalPouchEnabled = getConfig("crsUtilityMagicalPouchRecipeToggle") == 1
-local crsIsDarkMatterCompatibilityEnabled = getConfig("crsDarkMatterCompatibilityToggle") == 1
+local MPMotes = Ingredient("darkmote", getConfig("cfgMPMotes"))
+MPMotes.atlas = "images/inventoryimages/darkmote.xml"
+local IMPMotes = Ingredient("darkmote", getConfig("cfgIMPMotes"))
+IMPMotes.atlas = "images/inventoryimages/darkmote.xml"
+local UMPMotes = Ingredient("darkmote", getConfig("cfgUMPMotes"))
+UMPMotes.atlas = "images/inventoryimages/darkmote.xml"
+local isIMPEnabled = getConfig("cfgIMPRecipeToggle")
+local isUMPEnabled = getConfig("cfgUMPRecipeToggle")
+local isDMCompEnabled = getConfig("cfgDMCompToggle")
 
-local recipeTab = RECIPETABS.ANCIENT
-if crsRecipeTab == 2 then
- recipeTab = RECIPETABS.MAGIC
-elseif crsRecipeTab == 3 then
- recipeTab = RECIPETABS.TOOLS
-elseif crsRecipeTab == 4 then
- recipeTab = RECIPETABS.SURVIVAL
-end
-local recipeTech = TECH.NONE
-if crsRecipeTech == 1 then
- recipeTech = TECH.SCIENCE_ONE
-elseif crsRecipeTech == 2 then
- recipeTech = TECH.SCIENCE_TWO
-elseif crsRecipeTech == 3 then
- recipeTech = TECH.MAGIC_TWO
-elseif crsRecipeTech == 4 then
- recipeTech = TECH.MAGIC_THREE
-elseif crsRecipeTech == 5 then
- recipeTech = TECH.ANCIENT_TWO
-elseif crsRecipeTech == 6 then
- recipeTech = TECH.ANCIENT_FOUR
-elseif crsRecipeTech == 7 then
- recipeTech = TECH.OBSIDIAN_TWO
-end
+local crsRecipeTabs = {
+    RECIPETABS.ANCIENT,
+    RECIPETABS.MAGIC,
+    RECIPETABS.TOOLS,
+    RECIPETABS.SURVIVAL,
+}
+local recipeTab = crsRecipeTabs[getConfig("cfgRecipeTab")]
+
+local crsRecipeTechs = {
+    TECH.NONE,
+    TECH.SCIENCE_ONE, -- Science Machine
+    TECH.SCIENCE_TWO, -- Alchemy Engine
+    TECH.MAGIC_TWO, -- Prestihatitator
+    TECH.MAGIC_THREE, -- Shadow Manipulator
+    TECH.ANCIENT_TWO, -- Broken APS
+    TECH.ANCIENT_FOUR, -- Repaired APS
+    TECH.OBSIDIAN_TWO, -- Obsidian Workbench
+}
+local recipeTech = crsRecipeTechs[getConfig("cfgRecipeTech")]
+
 -- Magical Pouch --
-if crsIsDarkMatterCompatibilityEnabled then
+if isDMCompEnabled then
  local magicpouch = Recipe("magicpouch", {
-  crsMagicalPouchRecipeDarkMotes,
+  MPMotes,
  }, recipeTab, recipeTech)
  magicpouch.atlas = "images/inventoryimages/magicpouch.xml"
 else 
  local magicpouch = Recipe("magicpouch", {
-  Ingredient("rope", getConfig("crsMagicalPouchRecipeRope")),
-  Ingredient("silk", getConfig("crsMagicalPouchRecipeWeb")),
-  Ingredient("purplegem", getConfig("crsMagicalPouchRecipePurpleGem")),
+  Ingredient("rope", getConfig("cfgMPRope")),
+  Ingredient("silk", getConfig("cfgMPWeb")),
+  Ingredient("purplegem", getConfig("cfgMPGems")),
  }, recipeTab, recipeTech)
  magicpouch.atlas = "images/inventoryimages/magicpouch.xml"
 end
 -- Icy Magical Pouch --
-if crsIsIcyMagicalPouchEnabled then
- if crsIsDarkMatterCompatibilityEnabled then
+if isIMPEnabled then
+ if isDMCompEnabled then
   local icepouch = Recipe("icepouch", {
-   crsIcyMagicalPouchRecipeDarkMotes,
+   IMPMotes,
   }, recipeTab, recipeTech)
   icepouch.atlas = "images/inventoryimages/icepouch.xml"
  else 
   local icepouch = Recipe("icepouch", {
-   Ingredient("rope", getConfig("crsIcyMagicalPouchRecipeRope")),
-   Ingredient("silk", getConfig("crsIcyMagicalPouchRecipeWeb")),
-   Ingredient("bluegem", getConfig("crsIcyMagicalPouchRecipeBlueGem")),
+   Ingredient("rope", getConfig("cfgIMPRope")),
+   Ingredient("silk", getConfig("cfgIMPWeb")),
+   Ingredient("bluegem", getConfig("cfgIMPGems")),
   }, recipeTab, recipeTech)
   icepouch.atlas = "images/inventoryimages/icepouch.xml"
  end
 end
 -- Utility Magical Pouch --
-if crsIsUtilityMagicalPouchEnabled then
- if crsIsDarkMatterCompatibilityEnabled then
+if isUMPEnabled then
+ if isDMCompEnabled then
   local utilpouch = Recipe("utilpouch", {
-   crsUtilityMagicalPouchRecipeDarkMotes,
+   UMPMotes,
   }, recipeTab, recipeTech)
   utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
  else 
   local utilpouch = Recipe("utilpouch", {
-   Ingredient("rope", getConfig("crsUtilityMagicalPouchRecipeRope")),
-   Ingredient("silk", getConfig("crsUtilityMagicalPouchRecipeWeb")),
-   Ingredient("livinglog", getConfig("crsUtilityMagicalPouchRecipeLivingLog")),
+   Ingredient("rope", getConfig("cfgUMPRope")),
+   Ingredient("silk", getConfig("cfgUMPWeb")),
+   Ingredient("livinglog", getConfig("cfgUMPLogs")),
   }, recipeTab, recipeTech)
   utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
  end
@@ -157,7 +151,7 @@ AddClassPostConstruct("widgets/invslot", crsImageTintUpdate)
 
 -- CONTAINER --
 
-local crsWidgetPosition = Vector3(getConfig("crsHorizontalPositon"),getConfig("crsVerticalPositon"),0) -- background image position
+local crsWidgetPosition = Vector3(getConfig("cfgXPos"),getConfig("cfgYPos"),0) -- background image position
 
 local crsPouchDetails = {
  {id = 1, name = "pouchsmall", xy = 2, offset = 40, buttonx = 0, buttony = -100},
@@ -170,7 +164,7 @@ local crsPouchDetails = {
 local crsButtonPosition = {}
 
 for k = 1, #crsPouches do
- local pouch = crsPouchDetails[getConfig("crs"..crsPouches[k].."Size")]
+ local pouch = crsPouchDetails[getConfig("cfg"..crsPouches[k].."Size")]
  table.insert(crsButtonPosition, {x = pouch.buttonx, y = pouch.buttony})
  AddPrefabPostInit(PrefabFiles[k], function(inst)
   local slotpos = {}
@@ -279,14 +273,14 @@ end
 AddPrefabPostInit("utilpouch", crsUtilityMagicalPouchItemTestUpdate)
 -- Magical Pouch --
 local function crsMagicalPouchItemTest(inst, item, slot)
- if crsIsIcyMagicalPouchEnabled and crsIsUtilityMagicalPouchEnabled then
+ if isIMPEnabled and isUMPEnabled then
   return not item:HasTag("crsMagicalPouch") and
   not crsUtilityMagicalPouchItemTest(inst, item, slot) and
   not crsIcyMagicalPouchItemTest(inst, item, slot)
- elseif crsIsIcyMagicalPouchEnabled and not crsIsUtilityMagicalPouchEnabled then
+ elseif isIMPEnabled and not isUMPEnabled then
   return not item:HasTag("crsMagicalPouch") and
   not crsIcyMagicalPouchItemTest(inst, item, slot)
- elseif not crsIsIcyMagicalPouchEnabled and crsIsUtilityMagicalPouchEnabled then
+ elseif not isIMPEnabled and isUMPEnabled then
   return not item:HasTag("crsMagicalPouch") and
   not crsUtilityMagicalPouchItemTest(inst, item, slot)
  else
@@ -364,24 +358,24 @@ end
 
 for k = 1, #PrefabFiles do
  local function crsSearchForItem(inst)
-  local crsItem = FindEntity(inst, getConfig("crs"..crsPouches[k].."AutoCollectRadius"), function(crsItem) 
-   return crsItem.components.inventoryitem and 
-   crsItem.components.inventoryitem.canbepickedup and
-   crsItem.components.inventoryitem.cangoincontainer
+  local item = FindEntity(inst, getConfig("cfg"..crsPouches[k].."AutoCollectRadius"), function(item) 
+   return item.components.inventoryitem and 
+   item.components.inventoryitem.canbepickedup and
+   item.components.inventoryitem.cangoincontainer
   end)
-  if crsItem and not crsItem:HasTag("crsNoAutoCollect") then -- if valid
-   local crsGiven = 0
-   if crsItem.components.stackable then -- if stackable
-    local crsCanBeStacked = inst.components.container:FindItem(function(crsExistingItem)
-     return (crsExistingItem.prefab == crsItem.prefab and not crsExistingItem.components.stackable:IsFull())
+  if item and not item:HasTag("crsNoAutoCollect") then -- if valid
+   local given = 0
+   if item.components.stackable then -- if stackable
+    local canBeStacked = inst.components.container:FindItem(function(existingItem)
+     return (existingItem.prefab == item.prefab and not existingItem.components.stackable:IsFull())
     end)
-    if crsCanBeStacked then -- if can be stacked
-     inst.components.container:GiveItem(crsItem)
-     crsGiven = 1
+    if canBeStacked then -- if can be stacked
+     inst.components.container:GiveItem(item)
+     given = 1
     end
    end
-   if not inst.components.container:IsFull() and crsGiven == 0 then -- else if not full
-    inst.components.container:GiveItem(crsItem)
+   if not inst.components.container:IsFull() and given == 0 then -- else if not full
+    inst.components.container:GiveItem(item)
    end
   end
  end
@@ -391,7 +385,7 @@ for k = 1, #PrefabFiles do
   position = Vector3(crsButtonPosition[k].x, crsButtonPosition[k].y, 0),
   fn = function(inst)
    if inst.crsAutoCollectToggle == 0 then
-    inst:DoPeriodicTask(getConfig("crs"..crsPouches[k].."AutoCollectInterval"), crsSearchForItem)
+    inst:DoPeriodicTask(getConfig("cfg"..crsPouches[k].."AutoCollectInterval"), crsSearchForItem)
     inst.crsAutoCollectToggle = 1
    else
     inst:CancelAllPendingTasks()
@@ -412,7 +406,7 @@ for k = 1, #PrefabFiles do
    if data and data.crsAutoCollectToggle then
     inst.crsAutoCollectToggle = data.crsAutoCollectToggle
     if inst.crsAutoCollectToggle == 1 then
-     inst:DoPeriodicTask(getConfig("crs"..crsPouches[k].."AutoCollectInterval"), crsSearchForItem)
+     inst:DoPeriodicTask(getConfig("cfg"..crsPouches[k].."AutoCollectInterval"), crsSearchForItem)
     end    
    end
   end
