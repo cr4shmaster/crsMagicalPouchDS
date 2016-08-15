@@ -6,7 +6,7 @@
 -- turned off in the settings or toggled on/off while playing.
 -- This mod is compatible with the Dark Matter mod, allowing the use
 --  of Dark Motes for the recipes. Otherwise, the recipes require Rope, 
---  Spider Web, and Purple Gems, Blue Gems, or Living Rod, dependind on 
+--  Spider Web, and Purple Gems, Blue Gems, or Living Rod, depending on 
 --  the pouch. The amounts are configurable in the settings.
 
 -- Author:
