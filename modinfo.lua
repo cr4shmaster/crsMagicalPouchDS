@@ -3,19 +3,19 @@
 --  The Icy Magical Pouch holds food and perishable items. 
 --  The Utility Magical Pouch holds tools, instruments, weapons, etc.
 -- All the pouches can collect items automatically; this feature can be 
--- turned off in the settings or toggled on/off while playing.
+-- toggled on/off while playing.
 -- This mod is compatible with the Dark Matter mod, allowing the use
 --  of Dark Motes for the recipes. Otherwise, the recipes require Rope, 
 --  Spider Web, and Purple Gems, Blue Gems, or Living Rod, depending on 
 --  the pouch. The amounts are configurable in the settings.
 
--- Author:
--- cr4shmaster: http://steamcommunity.com/id/cr4shmaster
+-- Workshop Page: http://steamcommunity.com/sharedfiles/filedetails/?id=399011777
+-- Author: cr4shmaster: http://steamcommunity.com/id/cr4shmaster
 
 name = "Magical Pouch v3.3"
 description = "Shrinks items to fit in your pocket!"
 author = "cr4shmaster"
-version = "3.3.1"
+version = "3.3.2"
 forumthread = ""
 api_version = 6
 dont_starve_compatible = true
