@@ -15,7 +15,7 @@
 name = "Magical Pouch v3.3"
 description = "Shrinks items to fit in your pocket!"
 author = "cr4shmaster"
-version = "3.3.2"
+version = "3.3.2.1"
 forumthread = ""
 api_version = 6
 dont_starve_compatible = true
@@ -156,10 +156,14 @@ configuration_options = {
         name = "cfgRecipeTab",
         label = "Recipe Tab",
         options = {
-            {description = "Ancient", data = 1},
-            {description = "Magic", data = 2},
-            {description = "Tools", data = 3},
-            {description = "Survival", data = 4},
+            {description = "Tools", data = 1},
+            {description = "Survival", data = 2},
+            {description = "Farm", data = 3},
+            {description = "Science", data = 4},
+            {description = "Structures", data = 5},
+            {description = "Refine", data = 6},
+            {description = "Magic", data = 7},
+            {description = "Ancient", data = 8},
         },
         default = 1,
     },
@@ -320,7 +324,7 @@ configuration_options = {
         name = "cfgDMCompToggle",
         label = "DM Compatibility",
         options = crsToggle,
-        default = true,
+        default = false,
     },
     {
         name = "cfgMPMotes",

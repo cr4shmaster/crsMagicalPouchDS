@@ -38,7 +38,7 @@ FindEntity = GLOBAL.FindEntity
 RoG = GLOBAL.REIGN_OF_GIANTS
 SW = GLOBAL.CAPY_DLC
 
--- local noDLC = not IsDLCEnabled(RoG) and not GLOBAL.IsDLCEnabled(SW)
+-- local noDLC = not IsDLCEnabled(RoG) and not IsDLCEnabled(SW)
 -- local anyDLC = IsDLCEnabled(RoG) or IsDLCEnabled(SW)
 -- local rogDLC = IsDLCEnabled(RoG)
 -- local swDLC = IsDLCEnabled(SW)
@@ -74,10 +74,14 @@ local isUMPEnabled = getConfig("cfgUMPRecipeToggle")
 local isDMCompEnabled = getConfig("cfgDMCompToggle")
 
 local crsRecipeTabs = {
-    RECIPETABS.ANCIENT,
-    RECIPETABS.MAGIC,
     RECIPETABS.TOOLS,
     RECIPETABS.SURVIVAL,
+    RECIPETABS.FARM,
+    RECIPETABS.SCIENCE,
+    RECIPETABS.TOWN,
+    RECIPETABS.REFINE,
+    RECIPETABS.MAGIC,
+    RECIPETABS.ANCIENT,
 }
 local recipeTab = crsRecipeTabs[getConfig("cfgRecipeTab")]
 
@@ -110,33 +114,33 @@ end
 -- Icy Magical Pouch --
 if isIMPEnabled then
     if isDMCompEnabled then
-    local icepouch = Recipe("icepouch", {
-        IMPMotes,
-    }, recipeTab, recipeTech)
-    icepouch.atlas = "images/inventoryimages/icepouch.xml"
-else 
-    local icepouch = Recipe("icepouch", {
-        Ingredient("rope", getConfig("cfgIMPRope")),
-        Ingredient("silk", getConfig("cfgIMPWeb")),
-        Ingredient("bluegem", getConfig("cfgIMPGems")),
-    }, recipeTab, recipeTech)
-    icepouch.atlas = "images/inventoryimages/icepouch.xml"
+        local icepouch = Recipe("icepouch", {
+            IMPMotes,
+        }, recipeTab, recipeTech)
+        icepouch.atlas = "images/inventoryimages/icepouch.xml"
+    else 
+        local icepouch = Recipe("icepouch", {
+            Ingredient("rope", getConfig("cfgIMPRope")),
+            Ingredient("silk", getConfig("cfgIMPWeb")),
+            Ingredient("bluegem", getConfig("cfgIMPGems")),
+        }, recipeTab, recipeTech)
+        icepouch.atlas = "images/inventoryimages/icepouch.xml"
     end
 end
 -- Utility Magical Pouch --
 if isUMPEnabled then
     if isDMCompEnabled then
-    local utilpouch = Recipe("utilpouch", {
-        UMPMotes,
-    }, recipeTab, recipeTech)
-    utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
-else 
-    local utilpouch = Recipe("utilpouch", {
-        Ingredient("rope", getConfig("cfgUMPRope")),
-        Ingredient("silk", getConfig("cfgUMPWeb")),
-        Ingredient("livinglog", getConfig("cfgUMPLogs")),
-    }, recipeTab, recipeTech)
-    utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
+        local utilpouch = Recipe("utilpouch", {
+            UMPMotes,
+        }, recipeTab, recipeTech)
+        utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
+    else 
+        local utilpouch = Recipe("utilpouch", {
+            Ingredient("rope", getConfig("cfgUMPRope")),
+            Ingredient("silk", getConfig("cfgUMPWeb")),
+            Ingredient("livinglog", getConfig("cfgUMPLogs")),
+        }, recipeTab, recipeTech)
+        utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
     end
 end
 
