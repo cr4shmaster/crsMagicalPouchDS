@@ -1,13 +1,11 @@
 PrefabFiles = {
     "magicpouch",
     "icepouch",
-    "utilpouch",
 }
 
 local crsPouches = {
     "MP",
     "IMP",
-    "UMP",
 }
 
 Assets = {
@@ -19,10 +17,6 @@ Assets = {
     Asset("IMAGE", "images/inventoryimages/icepouch.tex"),
     Asset("ATLAS", "minimap/icepouch.xml" ),
     Asset("IMAGE", "minimap/icepouch.tex" ),
-    Asset("ATLAS", "images/inventoryimages/utilpouch.xml"),
-    Asset("IMAGE", "images/inventoryimages/utilpouch.tex"),
-    Asset("ATLAS", "minimap/utilpouch.xml" ),
-    Asset("IMAGE", "minimap/utilpouch.tex" ),
 }
 
 STRINGS = GLOBAL.STRINGS
@@ -47,7 +41,6 @@ SW = GLOBAL.CAPY_DLC
 
 AddMinimapAtlas("minimap/magicpouch.xml")
 AddMinimapAtlas("minimap/icepouch.xml")
-AddMinimapAtlas("minimap/utilpouch.xml")
 
 -- STRINGS --
 
@@ -57,9 +50,6 @@ STRINGS.CHARACTERS.GENERIC.DESCRIBE.MAGICPOUCH = "Shrinks items to fit in your p
 STRINGS.NAMES.ICEPOUCH = "Icy Magical Pouch"
 STRINGS.RECIPE_DESC.ICEPOUCH = "A Magical Pouch that can keep food fresh forever!"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.ICEPOUCH = "A Magical Pouch that can keep food fresh forever!"
-STRINGS.NAMES.UTILPOUCH = "Utility Magical Pouch"
-STRINGS.RECIPE_DESC.UTILPOUCH = "A Magical Pouch that can store tools, instruments and weapons!"
-STRINGS.CHARACTERS.GENERIC.DESCRIBE.UTILPOUCH = "A Magical Pouch that can store tools, instruments and weapons!"
 
 -- RECIPES --
 
@@ -67,10 +57,7 @@ local MPMotes = Ingredient("darkmote", getConfig("cfgMPMotes"))
 MPMotes.atlas = "images/inventoryimages/darkmote.xml"
 local IMPMotes = Ingredient("darkmote", getConfig("cfgIMPMotes"))
 IMPMotes.atlas = "images/inventoryimages/darkmote.xml"
-local UMPMotes = Ingredient("darkmote", getConfig("cfgUMPMotes"))
-UMPMotes.atlas = "images/inventoryimages/darkmote.xml"
 local isIMPEnabled = getConfig("cfgIMPRecipeToggle")
-local isUMPEnabled = getConfig("cfgUMPRecipeToggle")
 local isDMCompEnabled = getConfig("cfgDMCompToggle")
 
 local crsRecipeTabs = {
@@ -125,22 +112,6 @@ if isIMPEnabled then
             Ingredient("bluegem", getConfig("cfgIMPGems")),
         }, recipeTab, recipeTech)
         icepouch.atlas = "images/inventoryimages/icepouch.xml"
-    end
-end
--- Utility Magical Pouch --
-if isUMPEnabled then
-    if isDMCompEnabled then
-        local utilpouch = Recipe("utilpouch", {
-            UMPMotes,
-        }, recipeTab, recipeTech)
-        utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
-    else 
-        local utilpouch = Recipe("utilpouch", {
-            Ingredient("rope", getConfig("cfgUMPRope")),
-            Ingredient("silk", getConfig("cfgUMPWeb")),
-            Ingredient("livinglog", getConfig("cfgUMPLogs")),
-        }, recipeTab, recipeTech)
-        utilpouch.atlas = "images/inventoryimages/utilpouch.xml"
     end
 end
 
@@ -210,44 +181,12 @@ for k = 1, #crsNoAutoCollectList do
         AddPrefabPostInit(crsNoAutoCollectList[k], crsNoAutoCollect)
     end
 end
--- Utility Magical Pouch --
-local function crsGoesInUtilityMagicalPouch(inst)
-    inst:AddTag("crsGoesInUtilityMagicalPouch") -- items with this tag can go in Utility Magical Pouch
-end
-local crsGoesInUtilityMagicalPouchList = {
-    "webberskull",
-    "chester_eyebone",
-    "compass",
-    "fertilizer",
-    "featherfan",
-    "bedroll_furry",
-    "bedroll_straw",
-    "healingsalve",
-    "bandage",
-    "pumpkin_lantern",
-    "heatrock",
-    "waxwelljournal",
-    "sewing_kit",
-    "gunpowder",
-    "tropicalfan",
-    "packim_fishbone",
-    "boatrepairkit",
-    "surfboard_item",
-}
-for k = 1, #crsGoesInUtilityMagicalPouchList do
-    if crsGoesInUtilityMagicalPouchList[k] then
-        AddPrefabPostInit(crsGoesInUtilityMagicalPouchList[k], crsGoesInUtilityMagicalPouch)
-    end
-end
 
 -- ITEM TEST --
 
 -- Icy Magical Pouch --
 local function crsIcyMagicalPouchItemTest(inst, item, slot)
-    return (item.components.edible and item.components.perishable) or 
-    item.prefab == "mandrake" or 
-    item.prefab == "tallbirdegg" or 
-    item.prefab == "heatrock" or 
+    return (item.components.edible and item.components.perishable) or
     item.prefab == "spoiled_food" or 
     item:HasTag("frozen") or
     item:HasTag("icebox_valid")
@@ -256,37 +195,11 @@ local function crsIcyMagicalPouchItemTestUpdate(inst)
     inst.components.container.itemtestfn = crsIcyMagicalPouchItemTest
 end
 AddPrefabPostInit("icepouch", crsIcyMagicalPouchItemTestUpdate)
--- Utility Magical Pouch --
-local function crsUtilityMagicalPouchItemTest(inst, item, slot)
-    return item.components.tool or
-    item.components.instrument or
-    item.components.weapon or
-    item.components.shaver or
-    item.components.equippable or
-    item:HasTag("teleportato_part") or
-    item:HasTag("wallbuilder") or
-    -- item:HasTag("groundtile") or
-    item:HasTag("mine") or
-    item:HasTag("trap") or
-    item:HasTag("hat") or
-    item:HasTag("crsGoesInUtilityMagicalPouch")
-end
-local function crsUtilityMagicalPouchItemTestUpdate(inst)
-    inst.components.container.itemtestfn = crsUtilityMagicalPouchItemTest
-end
-AddPrefabPostInit("utilpouch", crsUtilityMagicalPouchItemTestUpdate)
 -- Magical Pouch --
 local function crsMagicalPouchItemTest(inst, item, slot)
-    if isIMPEnabled and isUMPEnabled then
-        return not item:HasTag("crsMagicalPouch") and
-        not crsUtilityMagicalPouchItemTest(inst, item, slot) and
-        not crsIcyMagicalPouchItemTest(inst, item, slot)
-    elseif isIMPEnabled and not isUMPEnabled then
+    if isIMPEnabled then
         return not item:HasTag("crsMagicalPouch") and
         not crsIcyMagicalPouchItemTest(inst, item, slot)
-    elseif not isIMPEnabled and isUMPEnabled then
-        return not item:HasTag("crsMagicalPouch") and
-        not crsUtilityMagicalPouchItemTest(inst, item, slot)
     else
         return not item:HasTag("crsMagicalPouch")
     end

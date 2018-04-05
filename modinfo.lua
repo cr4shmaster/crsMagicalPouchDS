@@ -1,21 +1,9 @@
--- This mod adds 3 portable containers:
---  The Magical Pouch holds ingredients and trinkets. 
---  The Icy Magical Pouch holds food and perishable items. 
---  The Utility Magical Pouch holds tools, instruments, weapons, etc.
--- All the pouches can collect items automatically; this feature can be 
--- toggled on/off while playing.
--- This mod is compatible with the Dark Matter mod, allowing the use
---  of Dark Motes for the recipes. Otherwise, the recipes require Rope, 
---  Spider Web, and Purple Gems, Blue Gems, or Living Rod, depending on 
---  the pouch. The amounts are configurable in the settings.
+-- https://sites.google.com/view/cr4shmaster/magical-pouch-ds-dst
 
--- Workshop Page: http://steamcommunity.com/sharedfiles/filedetails/?id=399011777
--- Author: cr4shmaster: http://steamcommunity.com/id/cr4shmaster
-
-name = "Magical Pouch v3.3"
+name = "Magical Pouch v3.3.2.2"
 description = "Shrinks items to fit in your pocket!"
 author = "cr4shmaster"
-version = "3.3.2.1"
+version = "3.3.2.2"
 forumthread = ""
 api_version = 6
 dont_starve_compatible = true
@@ -279,48 +267,6 @@ configuration_options = {
         default = .3,
     },
     {
-        name = "cfgUMPRecipeToggle",
-        label = "UMP Recipe",
-        options = crsToggle,
-        default = true,
-    },
-    {
-        name = "cfgUMPSize",
-        label = "UMP Size",
-        options = crsSize,
-        default = 1,
-    },
-    {
-        name = "cfgUMPRope",
-        label = "UMP Rope",
-        options = crsIngredient,
-        default = 1,
-    },
-    {
-        name = "cfgUMPWeb",
-        label = "UMP Spider Web",
-        options = crsIngredient,
-        default = 15,
-    },
-    {
-        name = "cfgUMPLogs",
-        label = "UMP Living Log",
-        options = crsIngredient,
-        default = 10,
-    },
-    {
-        name = "cfgUMPAutoCollectRadius",
-        label = "UMP Collect Radius",
-        options = crsRadius,
-        default = 10,
-    },
-    {
-        name = "cfgUMPCollectInterval",
-        label = "UMP Collect Interval",
-        options = crsInterval,
-        default = .3,
-    },
-    {
         name = "cfgDMCompToggle",
         label = "DM Compatibility",
         options = crsToggle,
@@ -339,12 +285,6 @@ configuration_options = {
         default = 200,
     },
     {
-        name = "cfgUMPMotes",
-        label = "UMP DM Recipe",
-        options = crsDarkMotes,
-        default = 100,
-    },
-    {
         name = "cfgXPos",
         label = "UI x Position",
         options = crsPosition,
@@ -355,13 +295,5 @@ configuration_options = {
         label = "UI y Position",
         options = crsPosition,
         default = -100,
-    },
-    {
-        name = "cfgTestCheck",
-        label = "Installed",
-        options = {
-            {description = "Yes", data = true},
-        },
-        default = true,
     },
 }

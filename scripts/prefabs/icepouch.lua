@@ -15,12 +15,8 @@ local assets = {
 
 getConfig = GetModConfigData
 
-local crsMagicalPouchDS = nil
-if getConfig("cfgTestCheck", "workshop-399011777") then
-    crsMagicalPouchDS = "workshop-399011777"
-else
-    crsMagicalPouchDS = "crsMagicalPouchDS"
-end
+crsMagicalPouchDS = "workshop-399011777"
+-- crsMagicalPouchDS = "crsMagicalPouchDS"
 
 local function fn(Sim)
     local inst = CreateEntity()
